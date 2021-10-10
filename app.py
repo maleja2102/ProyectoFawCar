@@ -16,7 +16,7 @@ def ingreso():
 @app.route('/registro', methods=['GET','POST'])
 def regisro():
     return "render_template('registro.html')"
-
+#ejemplo
 # Rutas para el superadmin
 @app.route('/inicio_superadmin', methods=['GET'])
 def inicio():
