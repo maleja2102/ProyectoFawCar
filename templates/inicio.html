@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+</head>
+<body>
+{% if rol_usuario=="superadmin" %}
+    <section>
+        <h1>Zona Superadmin</h1>
+        <section>
+            <h3>Inicio</h3>
+            <h3>Usuarios</h3>
+            <h3>Proveedores</h3>
+            <h3>Producto</h3>
+        </section>
+{% elif rol_usuario=="admin" %}
+    </section>
+    <section>
+        <h1>Zona Admin</h1>
+        <section>
+            <h3>Inicio</h3>
+            <h3>Usuarios</h3>
+            <h3>Producto</h3>
+        </section>
+    </section>
+{% elif rol_usuario=="usuario" %}
+    <section>
+        <h1>Zona User</h1>
+        <section>
+            <h3>Inicio</h3>
+            <h3>Proveedores</h3>
+            <h3>Producto</h3>
+        </section>
+    </section>
+{% endif %}
+</body>
+</html>

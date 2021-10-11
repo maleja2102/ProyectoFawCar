@@ -10,7 +10,36 @@ lista_proveedores = ["Kia", "General Motors", "Volkswagen"]
 # Rutas principales
 @app.route('/', methods=['GET','POST'])
 def ingreso():
-    return "render_template('ingreso.html')"
+    return render_template('ingreso.html')
+
+#Ruta inicio (todos los roles)
+@app.route('/inicio',methods=['GET','POST'])
+def iniciar():
+   #Por definir, deberia redirigir al inicio, ya que no debe ser accesible sin un usuario y su rol 
+    if request.method=='GET':
+        return render_template('inicio.html')
+    else: #Si la solicitud es POST
+        #Traer usuario y contraseña del formulario
+            user=request.form.get('user')
+            passw=request.form.get('pass')
+            #Recorremos la lista en busca del usuario y la contraseña introducidos
+            login = [usuario for usuario in usuarios1 if (usuario["nombre"] == user)and (usuario["contrasena"]==passw)]
+            #Si la lista resultante está vacia, enviamos error
+            if (len(login) == 0):
+                return jsonify({"mensaje": "usuario no encontrado"})
+            else:
+                #si la lista resultante contiene un elemento (siempre debe ser 1)
+                #extraemos el rol del usuario de la lista
+                rol_usuario= login[0]["rol"]
+                #mostramos la plantilla de inicio, pasandole como parametro el rol del usuario
+                return render_template('inicio.html',rol_usuario=rol_usuario)
+
+
+
+
+
+
+
 #rol_usuario="admin"
 
 #ejemplo

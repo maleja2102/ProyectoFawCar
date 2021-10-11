@@ -1,7 +1,7 @@
 usuarios1=[
-    {"nombre":"Maria","id":111,"rol":"admin"},
-    {"nombre":"Daniel","id":222, "rol":"usuario"},
-    {"nombre":"alvaro","id":333, "rol":"superadmin"}
+    {"nombre":"Maria","id":111,"contrasena":"12345","rol":"admin"},
+    {"nombre":"Daniel","id":222, "contrasena":"12345","rol":"usuario"},
+    {"nombre":"alvaro","id":333, "contrasena":"12345","rol":"superadmin"}
     ]
 productos1 =[
     {"Marca":"Kia","Modelo":"picanto","Anio":"2022","Cantidad":"10","Proveedor":"Kia Motors"},

@@ -1,1 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
 
+</head>
+<body>
+    <!--El formulario enviará los datos a la ruta inicio, usando el metodo POST-->
+    <form action="/inicio" method="POST">
+        {{csfr_token}}
+        <label for="user">Usuario:</label>
+        <input type="text" name="user" id="user">
+        <label for="pass">Contraseña</label>
+        <input type="password" name="pass" id="pass">
+        <!-- CODIGO PARA EL COMBOBOX, NO NECESARIO AHORA. 
+        <select name="rol" id="rol">
+            <option value="superadmin">superadmin</option>
+            <option value="admin">admin</option>
+            <option value="usuario">usuario</option>
+        </select>
+        -->
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
