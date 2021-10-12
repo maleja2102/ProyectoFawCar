@@ -34,7 +34,9 @@ def iniciar():
                 #mostramos la plantilla de inicio, pasandole como parametro el rol del usuario
                 return render_template('inicio.html',rol_usuario=rol_usuario)
 
-
+@app.route('/prueba')
+def prueba():
+    return render_template('prueba.html')
 
 
 
