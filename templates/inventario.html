@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+<!-- TITULO PESTAÑA -->
+{% block title %}
+<title>Inventario</title>
+{% endblock %}
+<!-- TITULO EN LA INTERFAZ -->
+{% block tituloPagina %}
+Inventario
+{% endblock %}
+
+<!-- CONTENIDO DE LA PAGINA -->
+{% block contenido %}
+<div class="input-group mb-3">
+  <div class="input-group-text p-0">
+      <select class="form-select form-select-lg shadow-none bg-light border-0">
+        <option>Nombre</option>  
+        <option>Usuario</option>
+        <option>Cédula</option>
+        <option>Cargo</option>
+      </select>
+  </div>
+  <input type="text" class="form-control" placeholder="Buscar...">
+  <button class="input-group-text shadow-none px-4 btn-primary">
+    <i class='bx bx-search-alt-2'></i>
+  </button>
+</div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped table-responsive">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Marca</th>
+                <th scope="col">Modelo</th>
+                <th scope="col">Año</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Proveedor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Kia</td>
+                <td>picanto</td>
+                <td>2022</td>
+                <td>10</td>
+                <td>Kia Motors</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Chevrolet</td>
+                <td>Spark gt</td>
+                <td>2022</td>
+                <td>6</td>
+                <td>Contoso S.A</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Nissan</td>
+                <td>March</td>
+                <td>2022</td>
+                <td>4</td>
+                <td>Dinissan</td>
+              </tr>
+              <tr>
+                <th scope="row">4</th>
+                <td>Hyundai</td>
+                <td>Tucson</td>
+                <td>2022</td>
+                <td>3</td>
+                <td>Hyundai</td>
+              </tr>
+            </tbody>
+            
+          </table>
+    </div>
+    <br>
+    <div class="d-flex justify-content-evenly">
+        <button type="button" class="btn btn-success btn-lg">Agregar</button>
+        <button type="button" class="btn btn-warning btn-lg">Editar</button>
+        <button type="button" class="btn btn-danger btn-lg">Eliminar</button>
+        </div>
+        <br>
+        
+  <div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="{{ url_for('static', filename='images/user.jpg') }}" class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">Usuario</h5>
+        <form>
+          <div class="row mb-3">
+            <label for="inputPassword3" class="col-sm-2 col-form-label">Nombre</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputEmail3">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="inputPassword3" class="col-sm-2 col-form-label">Cédula</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputPassword3">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Cargo</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputEmail3">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Correo</label>
+            <div class="col-sm-10">
+              <input type="email" class="form-control" id="inputEmail3">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Usuario</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputEmail3">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Contraseña</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" id="inputEmail3">
+            </div>
+          </div>
+    
+          
+          <div class="row mb-3">
+            <div class="col-sm-10 offset-sm-2">
+              <button class="btn btn-primary btn-lg btn-block" type="submit">Guardar</button>
+              <!-- <div class="form-check">
+                
+              </div> -->
+            </div>
+          </div>
+          
+        </form>
+<!--         <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
