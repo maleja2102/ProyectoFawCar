@@ -13,10 +13,9 @@ Inventario
 <div class="input-group mb-3">
   <div class="input-group-text p-0">
       <select class="form-select form-select-lg shadow-none bg-light border-0">
-        <option>Nombre</option>  
-        <option>Usuario</option>
-        <option>Cédula</option>
-        <option>Cargo</option>
+        <option>Marca</option>  
+        <option>Modelo</option>
+        <option>Año</option>
       </select>
   </div>
   <input type="text" class="form-control" placeholder="Buscar...">
@@ -84,50 +83,42 @@ Inventario
   <div class="card mb-3">
   <div class="row g-0">
     <div class="col-md-4">
-      <img src="{{ url_for('static', filename='images/user.jpg') }}" class="img-fluid rounded-start" alt="...">
+      <img src="{{ url_for('static', filename='images/carro.jpg') }}" class="img-fluid rounded-start" alt="...">
     </div>
     <div class="col-md-8">
       <div class="card-body">
         <h5 class="card-title">Usuario</h5>
         <form>
           <div class="row mb-3">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">Nombre</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3">
+            <label for="marca" class="col-sm-2 col-form-label">Marca</label>
+            <div class="col-sm-9">
+              <input type="input" class="form-control" id="marca">
             </div>
           </div>
           <div class="row mb-3">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">Cédula</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputPassword3">
+            <label for="modelo" class="col-sm-2 col-form-label">Modelo</label>
+            <div class="col-sm-9">
+              <input type="input" class="form-control" id="modelo">
             </div>
           </div>
           <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Cargo</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3">
+            <label for="anio" class="col-sm-2 col-form-label">Año</label>
+            <div class="col-sm-9">
+              <input type="input" class="form-control" id="anio">
             </div>
           </div>
           <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Correo</label>
-            <div class="col-sm-10">
-              <input type="email" class="form-control" id="inputEmail3">
+            <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
+            <div class="col-sm-9">
+              <input type="input" class="form-control" id="cantidad">
             </div>
           </div>
           <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Usuario</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3">
+            <label for="proveedor" class="col-sm-2 col-form-label">Proveedor</label>
+            <div class="col-sm-9">
+              <input type="input" class="form-control" id="proveedor">
             </div>
           </div>
-          <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Contraseña</label>
-            <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputEmail3">
-            </div>
-          </div>
-    
-          
           <div class="row mb-3">
             <div class="col-sm-10 offset-sm-2">
               <button class="btn btn-primary btn-lg btn-block" type="submit">Guardar</button>

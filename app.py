@@ -46,7 +46,9 @@ def iniciar():
 def prueba():
     return render_template('prueba.html')
 
-
+@app.route('/inventariosuperadmin')
+def inventariosuperadmin():
+    return render_template('inventario.html')
 
 
 
