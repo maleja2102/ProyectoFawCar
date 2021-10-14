@@ -49,27 +49,37 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Opciones</div>
+                            <!-- EL INICIO ESTÁ DISPONIBLE PARA TODOS LOS USUARIOS -->
                             <a class="nav-link" href="index.html">
                                 <div class="sb-nav-link-icon"><i class='bx bxs-home'></i></div>
                                 Inicio
                             </a>
+                            <!-- ROLES CON PERMISOS A USUARIOS -->
+                            {% if rol_usuario=="superadmin" or rol_usuario=="admin" %}
                             <a class="nav-link" href="charts.html">
                                 <div class="sb-nav-link-icon"><i class='bx bxs-user'></i></div>
                                 Usuarios
                             </a>
+                            {% endif %}
+
+                            <!-- INVENTARIO ESTA DISPONIBLE PARA  -->
                             <a class="nav-link" href="tables.html">
                                 <div class="sb-nav-link-icon"><i class='bx bxs-box'></i></div>
                                 Inventario
                             </a>
+
+                            <!-- SOLO USUARIO Y SUPER ADMIN -->
+                            {% if rol_usuario=="superadmin" or rol_usuario=="usuario" %}
                             <a class="nav-link" href="tables.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-handshake"></i></div>
                                 Proveedores
                             </a>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Conectado como:</div>
-                        USUARIO
+                        {{rol_usuario.upper()}}
                     </div>
                 </nav>
             </div>
@@ -81,10 +91,10 @@
                             {% block tituloPagina %}
                             {% endblock %}
                         </h1>
-                        <ol class="breadcrumb mb-4">
+<!--                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
                             <li class="breadcrumb-item active">Usuarios</li>
-                        </ol>
+                        </ol> -->
                         <div class="card mb-4">
                             <div class="card-body">
                                 {% block contenido %}
