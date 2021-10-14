@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+<!-- TITULO PESTAÑA -->
+{% block title %}
+<title>Proveedores</title>
+{% endblock %}
+<!-- TITULO EN LA INTERFAZ -->
+{% block tituloPagina %}
+Proveedores
+{% endblock %}
+
+<!-- CONTENIDO DE LA PAGINA -->
+{% block contenido %}
+<div class="input-group mb-3">
+  <div class="input-group-text p-0">
+      <select class="form-select form-select-lg shadow-none bg-light border-0">
+        <option>Empresa</option>  
+        <option>ID</option>
+      </select>
+  </div>
+  <input type="text" class="form-control" placeholder="Buscar...">
+  <button class="input-group-text shadow-none px-4 btn-primary">
+    <i class='bx bx-search-alt-2'></i>
+  </button>
+</div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped table-responsive">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Empresa</th>
+                <th scope="col">Contacto</th>
+                <th scope="col">Teléfono</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">001</th>
+                <td>Volkswagen Group</td>
+                <td>Cleveland	Shephard</td>
+                <td>8776426357</td>
+                <td>2918 Evergreen Park</td>
+                <td>cshephard0@t.co</td>
+              </tr>
+              <tr>
+                <th scope="row">002</th>
+                <td>Toyota Motor</td>
+                <td>Nehemiah	Tincknell</td>
+                <td>7243173802</td>
+                <td>04426 Daystar Parkway</td>
+                <td>ntincknell1@mozilla.org</td>
+              </tr>
+              <tr>
+                <th scope="row">003</th>
+                <td>Daimler</td>
+                <td>Mirella	Lightbourn</td>
+                <td>4045165612</td>
+                <td>34912 Burning Wood Center</td>
+                <td>mlightbourn2@wisc.edu</td>
+              </tr>
+              <tr>
+                <th scope="row">004</th>
+                <td>Ford Motor</td>
+                <td>Maiga	Richten</td>
+                <td>2638407258</td>
+                <td>2597 Barby Trail</td>
+                <td>mrichten3@indiegogo.com</td>
+              </tr>
+              <tr>
+                <th scope="row">005</th>
+                <td>BMW Group</td>
+                <td>Trescha	Giannoni</td>
+                <td>2773696499</td>
+                <td>2808 American Way</td>
+                <td>tgiannoni4@youtube.com</td>
+              </tr>
+              
+            </tbody>
+            
+          </table>
+    </div>
+    <br>
+    <div class="d-flex justify-content-evenly">
+        <button type="button" class="btn btn-success btn-lg">Agregar</button>
+        <button type="button" class="btn btn-warning btn-lg">Editar</button>
+        <button type="button" class="btn btn-danger btn-lg">Eliminar</button>
+        </div>
+        <br>
+        
+  <div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="{{ url_for('static', filename='images/volkswagen_logo.png') }}" class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">Proveedor</h5>
+        <form>
+          <div class="row mb-3">
+            <label for="inputPassword3" class="col-sm-2 col-form-label">ID</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputEmail3">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="inputPassword3" class="col-sm-2 col-form-label">Empresa</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputPassword3">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Contacto</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputEmail3">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Teléfono</label>
+            <div class="col-sm-10">
+              <input type="email" class="form-control" id="inputEmail3">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Dirección</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputEmail3">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" id="inputEmail3">
+            </div>
+          </div>
+    
+          
+          <div class="row mb-3">
+            <div class="col-sm-10 offset-sm-2">
+              <button class="btn btn-primary btn-lg btn-block" type="submit">Guardar</button>
+              <!-- <div class="form-check">
+                
+              </div> -->
+            </div>
+          </div>
+          
+        </form>
+<!--         <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

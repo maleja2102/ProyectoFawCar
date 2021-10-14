@@ -46,7 +46,10 @@ def iniciar():
 def prueba():
     return render_template('prueba.html')
 
-
+# Ruta de prueba para ventana de proveedores
+@app.route('/prueba_proveedores')
+def prueba_proveedores():
+    return render_template('proveedores.html')
 
 
 
