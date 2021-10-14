@@ -56,7 +56,9 @@ def prueba():
 def inventariosuperadmin():
     return render_template('inventario.html')
 
-
+@app.route('/prueba_proveedores')
+def prueba_proveedores():
+    return render_template('proveedores.html')
 
 #rol_usuario="admin"
 
