@@ -14,6 +14,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
         <!-- HOJA DE ESTILOS LOCAL -->
         <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <!-- BOOSTRAP -->
+        <link href="{{ url_for('static', filename='boostrap/css/bootstrap.min.css') }}" rel="stylesheet">
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -80,8 +82,8 @@
                             {% endblock %}
                         </h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Tables</li>
+                            <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+                            <li class="breadcrumb-item active">Usuarios</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
@@ -106,7 +108,8 @@
             </div>
         </div>
         <!-- BOOTSTRAP -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{{ url_for('static', filename='boostrap/js/bootstrap.bundle.min.js')}}"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> -->
         <!-- JS LOCAL -->
         <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>

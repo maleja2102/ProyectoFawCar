@@ -1,7 +1,11 @@
 from flask import Flask, render_template, jsonify, redirect, request
+from werkzeug.utils import format_string
+import os
 
 from listas import usuarios1, productos1, proveedores1
+from login import formIngreso
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 
 lista_usuarios = ["usuario", "admin", "superadmin"]
 lista_inventario = ["mazda 3", "chevrolet onix", "mazda ñao"]
@@ -10,7 +14,8 @@ lista_proveedores = ["Kia", "General Motors", "Volkswagen"]
 # Rutas principales
 @app.route('/', methods=['GET','POST'])
 def ingreso():
-    return render_template('ingreso.html')
+    form=formIngreso()
+    return render_template('ingreso.html', form=form)
 
 #Ruta inicio (todos los roles)
 @app.route('/inicio',methods=['GET','POST'])
