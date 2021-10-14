@@ -10,6 +10,7 @@ app.secret_key = os.urandom(24)
 lista_usuarios = ["usuario", "admin", "superadmin"]
 lista_inventario = ["mazda 3", "chevrolet onix", "mazda ñao"]
 lista_proveedores = ["Kia", "General Motors", "Volkswagen"]
+rol_usuario=""
 
 # Rutas principales
 @app.route('/', methods=['GET','POST'])
@@ -33,14 +34,19 @@ def iniciar():
             #Recorremos la lista en busca del usuario y la contraseña introducidos
             login = [usuario for usuario in usuarios1 if (usuario["nombre"] == user)and (usuario["contrasena"]==password)]
             #Si la lista resultante está vacia, enviamos error
+            rol_usuario= login[0]["rol"]
             if (len(login) == 0):
                 return jsonify({"mensaje": "usuario no encontrado"})
             else:
                 #si la lista resultante contiene un elemento (siempre debe ser 1)
                 #extraemos el rol del usuario de la lista
-                rol_usuario= login[0]["rol"]
+                # rol_usuario= login[0]["rol"]
                 #mostramos la plantilla de inicio, pasandole como parametro el rol del usuario
-                return render_template('inicio.html',rol_usuario=rol_usuario)
+                return render_template('inicio.html',rol_usuario= rol_usuario)
+
+@app.route('/usuarios')
+def usuario():
+    return render_template('usuarios.html', rol_usuario = rol_usuario )
 
 @app.route('/prueba')
 def prueba():
