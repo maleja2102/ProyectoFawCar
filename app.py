@@ -25,10 +25,13 @@ def iniciar():
         return render_template('inicio.html')
     else: #Si la solicitud es POST
         #Traer usuario y contraseña del formulario
-            user=request.form.get('user')
-            passw=request.form.get('pass')
+            # user=request.form.get('user')
+            # passw=request.form.get('pass')
+            formu=formIngreso()
+            user = formu.usuario.data
+            password = formu.contrasena.data
             #Recorremos la lista en busca del usuario y la contraseña introducidos
-            login = [usuario for usuario in usuarios1 if (usuario["nombre"] == user)and (usuario["contrasena"]==passw)]
+            login = [usuario for usuario in usuarios1 if (usuario["nombre"] == user)and (usuario["contrasena"]==password)]
             #Si la lista resultante está vacia, enviamos error
             if (len(login) == 0):
                 return jsonify({"mensaje": "usuario no encontrado"})
