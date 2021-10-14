@@ -56,21 +56,21 @@
                             </a>
                             <!-- ROLES CON PERMISOS A USUARIOS -->
                             {% if rol_usuario=="superadmin" or rol_usuario=="admin" %}
-                            <a class="nav-link" href="charts.html">
+                            <a class="nav-link" href="/usuarios">
                                 <div class="sb-nav-link-icon"><i class='bx bxs-user'></i></div>
                                 Usuarios
                             </a>
                             {% endif %}
 
                             <!-- INVENTARIO ESTA DISPONIBLE PARA  -->
-                            <a class="nav-link" href="tables.html">
+                            <a class="nav-link" href="inventario.html">
                                 <div class="sb-nav-link-icon"><i class='bx bxs-box'></i></div>
                                 Inventario
                             </a>
 
                             <!-- SOLO USUARIO Y SUPER ADMIN -->
                             {% if rol_usuario=="superadmin" or rol_usuario=="usuario" %}
-                            <a class="nav-link" href="tables.html">
+                            <a class="nav-link" href="proveedores.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-handshake"></i></div>
                                 Proveedores
                             </a>
