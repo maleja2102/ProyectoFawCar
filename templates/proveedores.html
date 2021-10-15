@@ -7,7 +7,12 @@
 {% block tituloPagina %}
 Proveedores
 {% endblock %}
-
+{% block breadcrumb %}
+<ol class="breadcrumb mb-4">
+  <li class="breadcrumb-item"><a href="/inicio">Inicio</a></li>
+  <li class="breadcrumb-item active">Proveedores</li>
+</ol>
+{% endblock %}
 <!-- CONTENIDO DE LA PAGINA -->
 {% block contenido %}
 <div class="input-group mb-3">

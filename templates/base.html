@@ -89,12 +89,11 @@
                         
                         <h1 class="mt-4">
                             {% block tituloPagina %}
+
                             {% endblock %}
                         </h1>
-<!--                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
-                            <li class="breadcrumb-item active">Usuarios</li>
-                        </ol> -->
+                        {% block breadcrumb %}
+                        {% endblock %}
                         <div class="card mb-4">
                             <div class="card-body">
                                 {% block contenido %}

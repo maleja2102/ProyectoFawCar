@@ -7,9 +7,15 @@
 {% block tituloPagina %}
 Usuarios
 {% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb mb-4">
+  <li class="breadcrumb-item"><a href="/inicio">Inicio</a></li>
+  <li class="breadcrumb-item active">Usuarios</li>
+</ol>
+{% endblock %}
 
 <!-- CONTENIDO DE LA PAGINA -->
-{% block contenido %}
+{% block contenido %}                
 <div class="input-group mb-3">
   <div class="input-group-text p-0">
       <select class="form-select form-select-lg shadow-none bg-light border-0">
