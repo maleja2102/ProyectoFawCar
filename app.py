@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, redirect, request
+from flask import Flask, render_template, jsonify, redirect, request, sessions
 from werkzeug.utils import format_string
 import os
 
@@ -6,11 +6,12 @@ from listas import usuarios1, productos1, proveedores1
 from login import formIngreso
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+rol_usuario=""
 
 lista_usuarios = ["usuario", "admin", "superadmin"]
 lista_inventario = ["mazda 3", "chevrolet onix", "mazda ñao"]
 lista_proveedores = ["Kia", "General Motors", "Volkswagen"]
-rol_usuario=""
+
 
 # Rutas principales
 @app.route('/', methods=['GET','POST'])
@@ -22,9 +23,8 @@ def ingreso():
 @app.route('/inicio',methods=['GET','POST'])
 def iniciar():
    #Por definir, deberia redirigir al inicio, ya que no debe ser accesible sin un usuario y su rol 
-    if request.method=='GET':
-        return render_template('inicio.html')
-    else: #Si la solicitud es POST
+    if request.method=='POST':
+        #Si la solicitud es POST
         #Traer usuario y contraseña del formulario
             # user=request.form.get('user')
             # passw=request.form.get('pass')
@@ -34,6 +34,8 @@ def iniciar():
             #Recorremos la lista en busca del usuario y la contraseña introducidos
             login = [usuario for usuario in usuarios1 if (usuario["nombre"] == user)and (usuario["contrasena"]==password)]
             #Si la lista resultante está vacia, enviamos error
+            # rol_usuario= login[0]["rol"]
+            global rol_usuario 
             rol_usuario= login[0]["rol"]
             if (len(login) == 0):
                 return jsonify({"mensaje": "usuario no encontrado"})
@@ -43,10 +45,27 @@ def iniciar():
                 # rol_usuario= login[0]["rol"]
                 #mostramos la plantilla de inicio, pasandole como parametro el rol del usuario
                 return render_template('inicio.html',rol_usuario= rol_usuario)
+                # q=request.form.get(rol_usuario)
+    else:
+        return render_template('inicio.html',rol_usuario=rol_usuario)
 
 @app.route('/usuarios')
 def usuario():
-    return render_template('usuarios.html', rol_usuario = rol_usuario )
+    global rol_usuario
+    rol_usuario=rol_usuario
+    return render_template('usuarios.html', rol_usuario = rol_usuario)
+
+@app.route('/proveedores')
+def proveedor():
+    global rol_usuario
+    rol_usuario=rol_usuario
+    return render_template('proveedores.html', rol_usuario = rol_usuario)
+
+@app.route('/inventario')
+def inventario():
+    global rol_usuario
+    rol_usuario=rol_usuario
+    return render_template('inventario.html', rol_usuario = rol_usuario)
 
 @app.route('/prueba')
 def prueba():
@@ -83,7 +102,7 @@ def usuarios(id_usuario):
         return f"El usuario {id_usuario} no está en la lista"
 
 @app.route('/inventario_superadmin/<id_carro>', methods=['GET','POST'])
-def inventario(id_carro):
+def inventario1(id_carro):
     if id_carro in lista_inventario:
         return f"Aún tienes el vehiculo, {id_carro}"
     else:

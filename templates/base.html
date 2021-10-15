@@ -20,7 +20,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.html"><img src="{{ url_for('static', filename='images/logobk.png') }}"alt="logo" width="70%" ></a>
+            <a class="navbar-brand ps-3" href="/inicio"><img src="{{ url_for('static', filename='images/logobk.png') }}"alt="logo" width="70%" ></a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -50,7 +50,7 @@
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Opciones</div>
                             <!-- EL INICIO ESTÁ DISPONIBLE PARA TODOS LOS USUARIOS -->
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="/inicio">
                                 <div class="sb-nav-link-icon"><i class='bx bxs-home'></i></div>
                                 Inicio
                             </a>
@@ -63,14 +63,14 @@
                             {% endif %}
 
                             <!-- INVENTARIO ESTA DISPONIBLE PARA  -->
-                            <a class="nav-link" href="inventario.html">
+                            <a class="nav-link" href="/inventario">
                                 <div class="sb-nav-link-icon"><i class='bx bxs-box'></i></div>
                                 Inventario
                             </a>
 
                             <!-- SOLO USUARIO Y SUPER ADMIN -->
                             {% if rol_usuario=="superadmin" or rol_usuario=="usuario" %}
-                            <a class="nav-link" href="proveedores.html">
+                            <a class="nav-link" href="/proveedores">
                                 <div class="sb-nav-link-icon"><i class="fas fa-handshake"></i></div>
                                 Proveedores
                             </a>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Conectado como:</div>
-                        {{rol_usuario.upper()}}
+                        {{rol_usuario}}
                     </div>
                 </nav>
             </div>
