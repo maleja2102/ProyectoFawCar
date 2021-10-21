@@ -3,6 +3,10 @@
 {% block title %}
 <title>Proveedores</title>
 {% endblock %}
+
+{% block alertas %}
+<p>Aqui va a haber alertas</p>
+{% endblock %}
 <!-- TITULO EN LA INTERFAZ -->
 {% block tituloPagina %}
 Proveedores
@@ -86,13 +90,8 @@ Proveedores
           </table>
     </div>
     <br>
-    <div class="d-flex justify-content-evenly">
-        <button type="button" class="btn btn-success btn-lg">Agregar</button>
-        <button type="button" class="btn btn-warning btn-lg">Editar</button>
-        <button type="button" class="btn btn-danger btn-lg">Eliminar</button>
-        </div>
-        <br>
-        
+
+    
   <div class="card mb-3">
   <div class="row g-0">
     <div class="col-md-4">
@@ -100,49 +99,50 @@ Proveedores
     </div>
     <div class="col-md-8">
       <div class="card-body">
+
         <h5 class="card-title">Proveedor</h5>
-        <form>
-          <div class="row mb-3">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">ID</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3">
-            </div>
-          </div>
+        <form action="/proveedores/add" method="POST" id="form_proveedores">
           <div class="row mb-3">
             <label for="inputPassword3" class="col-sm-2 col-form-label">Empresa</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputPassword3">
+              <input type="text" class="form-control" id="inputPassword3" name="proveedores_empresa">
             </div>
           </div>
           <div class="row mb-3">
             <label for="inputEmail3" class="col-sm-2 col-form-label">Contacto</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3">
+              <input type="text" class="form-control" id="inputEmail3" name="proveedores_contacto">
             </div>
           </div>
           <div class="row mb-3">
             <label for="inputEmail3" class="col-sm-2 col-form-label">Teléfono</label>
             <div class="col-sm-10">
-              <input type="email" class="form-control" id="inputEmail3">
+              <input type="text" class="form-control" id="inputEmail3" name="proveedores_telefono">
             </div>
           </div>
           <div class="row mb-3">
             <label for="inputEmail3" class="col-sm-2 col-form-label">Dirección</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3">
+              <input type="text" class="form-control" id="inputEmail3" name="proveedores_direccion">
             </div>
           </div>
           <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Correo</label>
             <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputEmail3">
+              <input type="email" class="form-control" id="inputEmail3" name="proveedores_correo">
             </div>
           </div>
     
           
           <div class="row mb-3">
             <div class="col-sm-10 offset-sm-2">
-              <button class="btn btn-primary btn-lg btn-block" type="submit">Guardar</button>
+              <div class="d-flex justify-content-evenly">
+                <button type="submit" class="btn btn-success btn-lg">Agregar</button>
+                <button type="submit" class="btn btn-warning btn-lg" onclick="proveedores_update();">Editar</button>
+                <button type="submit" class="btn btn-danger btn-lg" onclick="proveedores_delete();">Eliminar</button>
+                </div>
+                <br>
+              <!-- <button class="btn btn-primary btn-lg btn-block" type="submit">Guardar</button> -->
               <!-- <div class="form-check">
                 
               </div> -->

@@ -3,6 +3,10 @@
 {% block title %}
 <title>Usuarios</title>
 {% endblock %}
+
+{% block alertas %}
+<p>Aqui va a haber alertas</p>
+{% endblock %}
 <!-- TITULO EN LA INTERFAZ -->
 {% block tituloPagina %}
 Usuarios
@@ -15,7 +19,7 @@ Usuarios
 {% endblock %}
 
 <!-- CONTENIDO DE LA PAGINA -->
-{% block contenido %}                
+{% block contenido %}
 <div class="input-group mb-3">
   <div class="input-group-text p-0">
       <select class="form-select form-select-lg shadow-none bg-light border-0">
@@ -83,12 +87,7 @@ Usuarios
           </table>
     </div>
     <br>
-    <div class="d-flex justify-content-evenly">
-        <button type="button" class="btn btn-success btn-lg">Agregar</button>
-        <button type="button" class="btn btn-warning btn-lg">Editar</button>
-        <button type="button" class="btn btn-danger btn-lg">Eliminar</button>
-        </div>
-        <br>
+
         
   <div class="card mb-3">
   <div class="row g-0">
@@ -97,49 +96,62 @@ Usuarios
     </div>
     <div class="col-md-8">
       <div class="card-body">
+
         <h5 class="card-title">Usuario</h5>
-        <form>
+        <form action="/usuarios/add" method="POST" id="form_usuarios">
           <div class="row mb-3">
             <label for="inputPassword3" class="col-sm-2 col-form-label">Nombre</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3">
+              <input type="text" class="form-control" id="inputEmail3" name="usuarios_nombre">
             </div>
           </div>
           <div class="row mb-3">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">Cédula</label>
+            <label for="inputPassword3" class="col-sm-2 col-form-label">Apellido</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputPassword3">
+              <input type="text" class="form-control" id="inputEmail3" name="usuarios_apellido">
             </div>
           </div>
           <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Cargo</label>
+            <label for="inputPassword3" class="col-sm-2 col-form-label">Usuario</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3">
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Correo</label>
-            <div class="col-sm-10">
-              <input type="email" class="form-control" id="inputEmail3">
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Usuario</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3">
+              <input type="text" class="form-control" id="inputEmail3" name="usuarios_usuario">
             </div>
           </div>
           <div class="row mb-3">
             <label for="inputEmail3" class="col-sm-2 col-form-label">Contraseña</label>
             <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputEmail3">
+              <input type="password" class="form-control" id="inputEmail3" name="usuarios_clave">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="inputPassword3" class="col-sm-2 col-form-label">Cédula</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="inputPassword3" name="usuarios_cedula">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Correo</label>
+            <div class="col-sm-10">
+              <input type="email" class="form-control" id="inputEmail3" name="usuarios_correo">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Cargo</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputEmail3" name="usuarios_cargo">
             </div>
           </div>
     
           
           <div class="row mb-3">
             <div class="col-sm-10 offset-sm-2">
-              <button class="btn btn-primary btn-lg btn-block" type="submit">Guardar</button>
+              <div class="d-flex justify-content-evenly">
+                <button type="submit" class="btn btn-success btn-lg">Agregar</button>
+                <button type="submit" class="btn btn-warning btn-lg" onclick="usuarios_update();">Editar</button>
+                <button type="submit" class="btn btn-danger btn-lg" onclick="usuarios_delete();">Eliminar</button>
+                </div>
+                <br>
+              <!-- <button class="btn btn-primary btn-lg btn-block" type="submit">Guardar</button> -->
               <!-- <div class="form-check">
                 
               </div> -->
