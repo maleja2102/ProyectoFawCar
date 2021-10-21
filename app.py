@@ -1,5 +1,5 @@
 from enum import unique
-from flask import Flask, render_template, jsonify, redirect, request,session
+from flask import Flask, render_template, jsonify, redirect, request,session, flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import format_string
 from werkzeug.security import *
@@ -16,7 +16,7 @@ app.secret_key = os.urandom(24)
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
 db=SQLAlchemy(app)
-rol_usuario=""
+# rol_usuario=""
 
 
 #modelado base de datos
@@ -36,6 +36,12 @@ class Users(core):
 
     def __repr__(self):
         return '<Users %r>' % self.username
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
 
 
 class Cars(core):
@@ -67,6 +73,7 @@ class Supplier(core):
 @app.route('/', methods=['GET','POST'])
 def ingreso():
     form=formIngreso()
+    flash("buenas buenas")
     return render_template('ingreso.html', form=form)
 
 #Ruta inicio (todos los roles)
@@ -81,40 +88,45 @@ def iniciar():
             password = formu.contrasena.data
             #Recorremos la lista en busca del usuario y la contraseña introducidos
             login=Users.query.filter_by(username=user).first()
+            # if login:
+            #     if login.password == password:
+            #         session["user"]=login.username
+            #         session["rol"]=login.role
+            #         return redirect("inicio")
+            # else:
+            #     return jsonify({"mensaje": "usuario no encontrado"})
             if login:
-                if login.password == password:
+                if login.check_password(password):
                     session["user"]=login.username
                     session["rol"]=login.role
                     return redirect("inicio")
             else:
                 return jsonify({"mensaje": "usuario no encontrado"})
+
     else:
         return render_template('inicio.html')
 
 @app.route('/usuarios')
 def usuario():
-    global rol_usuario
-    rol_usuario=rol_usuario
+    rol_usuario= session['rol']
     return render_template('usuarios.html', rol_usuario = rol_usuario)
 
 @app.route('/proveedores')
 def proveedor():
-    global rol_usuario
-    rol_usuario=rol_usuario
+    rol_usuario= session['rol']
     return render_template('proveedores.html', rol_usuario = rol_usuario)
 
 @app.route('/inventario')
 def inventario():
-    global rol_usuario
-    rol_usuario=rol_usuario
+    rol_usuario= session['rol']
     return render_template('inventario.html', rol_usuario = rol_usuario)
 
-@app.route('/prueba')
+@app.route('/prueba',methods=['GET','POST'])
 def prueba():
-    return render_template('prueba.html')
+    rol_usuario= session['rol']
+    return render_template('inventario.html',rol_usuario=rol_usuario)
 
 @app.route('/registro', methods=['GET','POST'])
-
 def registro():
     form=formRegistro()
     if request.method=='POST':
@@ -127,7 +139,8 @@ def registro():
         personalId=form.personalId.data
 
         if password==confirm:
-            user=Users(username=username,password=password,email=email,name=name,surname=surname,personalId=personalId,role='registred')
+            user=Users(username=username,email=email,name=name,surname=surname,personalId=personalId,role='registred')
+            user.set_password(password)
             db.session.add(user)
             db.session.commit()
             # return render_template('inicio.html')

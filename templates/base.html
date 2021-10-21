@@ -93,8 +93,21 @@
 
                             {% endblock %}
                         </h1>
+
                         {% block breadcrumb %}
                         {% endblock %}
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+                                        <!-- <span aria-hidden="true">&times;</span> -->
+                                      </button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
                         <div class="card mb-4">
                             <div class="card-body">
                                 {% block contenido %}
@@ -121,6 +134,9 @@
         <script src="{{ url_for('static', filename='boostrap/js/bootstrap.bundle.min.js')}}"></script>
         <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> -->
         <!-- JS LOCAL -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
         <script src="{{ url_for('static', filename='js/datatables-simple-demo.js')}}"></script>
