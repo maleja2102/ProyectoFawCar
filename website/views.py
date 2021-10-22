@@ -1,28 +1,46 @@
-from flask import Blueprint, render_template, request, redirect, flash
+from flask import Blueprint, render_template, request, redirect, flash, session
 from .models import Usuarios, Inventario, Proveedores
 from werkzeug.security import generate_password_hash, check_password_hash
 
 views = Blueprint("views", __name__)
 
-rol_usuario = ""
-
 @views.route("/")
 def ingreso():
     return render_template("ingreso.html")
 
-@views.route("/login", methods=["POST"])
+@views.route("/login", methods=["POST","GET"])
 def login():
-    username_login = request.form["user"]
-    password = request.form["pass"]
+    if request.method=="POST":
+        username_login = request.form["user"]
+        password = request.form["pass"]
+        log=Usuarios.query.filter_by(usuario=username_login).first()
 
-    if len(username_login) == 0:
-        flash("Escribe tu nombre de usuario", category="error")  
-    elif len(password) == 0:
-        flash("Escribe tu contraseña", category="error")  
+        if log:
+            if log.check_password(password):
+                session["user"]=log.usuario
+                session["rol"]=log.rol
+                return redirect("inicio")
+            # else:
+            #     flash("contraseña incorrecta")
+            #     return redirect("/")
+        else:
+            flash("Usuario o contraseña incorrectos")
+            return redirect("/")
     else:
-        return redirect("inicio")
+        flash("el metodo no fue POST")
+        return redirect("/")
+        
 
-    return redirect("/")    
+
+
+    # if len(username_login) == 0:
+    #     flash("Escribe tu nombre de usuario", category="error")  
+    # elif len(password) == 0:
+    #     flash("Escribe tu contraseña", category="error")  
+    # else:
+    #     return redirect("inicio")
+
+    # return redirect("/")    
 
 @views.route("/inicio")
 def inicio():
@@ -46,6 +64,7 @@ def proveedor():
 # USUARIOS
 @views.route("/usuarios/add", methods=['POST'])
 def usuarios_add():
+    
     pass
 
 @views.route("/usuarios/update", methods=['POST'])
@@ -83,9 +102,6 @@ def proveedores_update():
 @views.route("/proveedores/delete", methods=['POST'])
 def proveedores_delete():
     return redirect("/proveedores")
-
-
-
 
 
 @views.route("/prueba")
