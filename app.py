@@ -16,8 +16,6 @@ app.secret_key = os.urandom(24)
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
 db=SQLAlchemy(app)
-# rol_usuario=""
-
 
 #modelado base de datos
 class core(db.Model):
@@ -144,9 +142,13 @@ def registro():
             db.session.add(user)
             db.session.commit()
             # return render_template('inicio.html')
-            
-
     return render_template('registro.html',form=form)
+
+@app.route('/logout', methods=['GET','POST'])
+def logout():
+    session.clear()
+    flash("ha cerrado sesion correctamente")
+    return redirect("/")
 
 if __name__ == '__main__':
     db.create_all()
