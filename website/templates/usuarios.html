@@ -100,49 +100,59 @@ Usuarios
         <h5 class="card-title">Usuario</h5>
         <form action="/usuarios/add" method="POST" id="form_usuarios">
           <div class="row mb-3">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">Nombre</label>
+            <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3" name="usuarios_nombre">
+              <input type="text" class="form-control" id="inputNombre" name="usuarios_nombre">
             </div>
           </div>
           <div class="row mb-3">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">Apellido</label>
+            <label for="inputApellido" class="col-sm-2 col-form-label">Apellido</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3" name="usuarios_apellido">
+              <input type="text" class="form-control" id="inputApellido" name="usuarios_apellido">
             </div>
           </div>
           <div class="row mb-3">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">Usuario</label>
+            <label for="inputUsuario" class="col-sm-2 col-form-label">Usuario</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3" name="usuarios_usuario">
+              <input type="text" class="form-control" id="inputUsuario" name="usuarios_usuario">
             </div>
           </div>
           <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Contraseña</label>
+            <label for="inputPassword" class="col-sm-2 col-form-label">Contraseña</label>
             <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputEmail3" name="usuarios_clave">
+              <input type="password" class="form-control" id="inputPassword" name="usuarios_clave">
             </div>
           </div>
           <div class="row mb-3">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">Cédula</label>
+            <label for="inputRol" class="col-sm-2 col-form-label">Rol</label>
             <div class="col-sm-10">
-              <input type="number" class="form-control" id="inputPassword3" name="usuarios_cedula">
+              <input type="text" class="form-control" id="inputRol" name="usuarios_rol">
             </div>
           </div>
           <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Correo</label>
+            <label for="inputCedula" class="col-sm-2 col-form-label">Cédula</label>
             <div class="col-sm-10">
-              <input type="email" class="form-control" id="inputEmail3" name="usuarios_correo">
+              <input type="number" class="form-control" id="inputCedula" name="usuarios_cedula">
             </div>
           </div>
           <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Cargo</label>
+            <label for="inputEmail" class="col-sm-2 col-form-label">Correo</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3" name="usuarios_cargo">
+              <input type="email" class="form-control" id="inputEmail" name="usuarios_correo">
             </div>
           </div>
-    
-          
+          <div class="row mb-3">
+            <label for="inputCargo" class="col-sm-2 col-form-label">Cargo</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputCargo" name="usuarios_cargo">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="avatar" class="col-sm-2 col-form-label">Imagen</label>
+            <div class="col-sm-10">
+              <input type="file" id="avatar" name="usuarios_imagen" accept="image/png, image/jpeg">
+            </div>
+          </div>
           <div class="row mb-3">
             <div class="col-sm-10 offset-sm-2">
               <div class="d-flex justify-content-evenly">
