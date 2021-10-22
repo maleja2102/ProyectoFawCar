@@ -17,7 +17,7 @@ class Usuarios(Base):
     imagen = db.Column(db.String)
 
     def set_password(self, clave):
-        self.password = generate_password_hash(clave)
+        self.clave = generate_password_hash(clave)
 
     def check_password(self, clave):
         return check_password_hash(self.clave, clave)

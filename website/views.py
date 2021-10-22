@@ -1,5 +1,6 @@
+from os import name
 from flask import Blueprint, render_template, request, redirect, flash, session
-from .models import Usuarios, Inventario, Proveedores
+from .models import Usuarios, Inventario, Proveedores,db
 from werkzeug.security import generate_password_hash, check_password_hash
 
 views = Blueprint("views", __name__)
@@ -48,7 +49,7 @@ def inicio():
 
 @views.route("/usuarios")
 def usuarios():
-    return render_template('usuarios.html')
+    return render_template('usuarios.html',usuarios=Usuarios.query.all())
 
 @views.route("/inventario")
 def inventario():
@@ -64,8 +65,42 @@ def proveedor():
 # USUARIOS
 @views.route("/usuarios/add", methods=['POST'])
 def usuarios_add():
+    # if request.method=='POST':
     
-    pass
+        nombre = request.form["usuarios_nombre"]
+        apellido = request.form["usuarios_apellido"]
+        usuario = request.form["usuarios_usuario"]
+        clave = request.form["usuarios_clave"]
+        confirmar = request.form["usuarios_confirmar"]
+        rol = request.form["usuarios_rol"]
+        cedula = request.form["usuarios_cedula"]
+        correo = request.form["usuarios_correo"]
+        cargo = request.form["usuarios_cargo"]
+        # imagen = request.files["input"]
+        
+        if clave==confirmar:
+            user=Usuarios(nombre=nombre,apellido=apellido,usuario=usuario,rol=rol,cedula=cedula,correo=correo,cargo=cargo)
+            user.set_password(clave)
+            db.session.add(user)
+            db.session.commit()
+            flash("usuario agregado exitosamente")
+            return redirect("/usuarios")
+
+
+@views.route("/usuarios/search", methods=['POST'])
+def usuarios_search():
+    b=request.form["searchbox"]
+    if request.form.get("opt")=="nombre":
+        return render_template("usuarios.html",usuarios=Usuarios.query.filter_by(nombre=b))
+    elif request.form.get("opt")=="usuario":
+        return render_template("usuarios.html",usuarios=Usuarios.query.filter_by(usuario=b))
+    elif request.form.get("opt")=="cargo":
+        return render_template("usuarios.html",usuarios=Usuarios.query.filter_by(cargo=b))
+    elif request.form.get("opt")=="cedula":
+        return render_template("usuarios.html",usuarios=Usuarios.query.filter_by(cedula=b))
+    
+    flash("usuario no encontrado")
+    return render_template('usuarios.html',usuarios=Usuarios.query.all())
 
 @views.route("/usuarios/update", methods=['POST'])
 def usuarios_update():
@@ -106,4 +141,5 @@ def proveedores_delete():
 
 @views.route("/prueba")
 def prueba():
-    return render_template('prueba.html')
+    
+    return render_template('prueba.html',x=Usuarios.query.all())

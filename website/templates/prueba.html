@@ -12,7 +12,7 @@ Usuarios
 {% block contenido %}
 <div class="input-group mb-3">
   <div class="input-group-text p-0">
-      <select class="form-select form-select-lg shadow-none bg-light border-0">
+      <select class="form-select form-select-lg shadow-none bg-light border-0" id="opt" name="opt">
         <option>Nombre</option>  
         <option>Usuario</option>
         <option>Cédula</option>
@@ -36,41 +36,16 @@ Usuarios
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">Anthony Stark</th>
-                <td>1111111</td>
-                <td>Lider</td>
-                <td>iroman@avengers.com</td>
-                <td>@iroman</td>
-              </tr>
-              <tr>
-                <th scope="row">Natasha Romanov</th>
-                <td>22222</td>
-                <td>Espia</td>
-                <td>blackwidow@avengers.com</td>
-                <td>@blackwidow</td>
-              </tr>
-              <tr>
-                <th scope="row">Wanda Maximoff</th>
-                <td>333333</td>
-                <td>Bruja</td>
-                <td>scarletwitch@avengers.com</td>
-                <td>@scarletwith</td>
-              </tr>
-              <tr>
-                <th scope="row">Peter Parker</th>
-                <td>44444</td>
-                <td>Practicante</td>
-                <td>spiderman@avengers.com</td>
-                <td>@spiderman</td>
-              </tr>
-              <tr>
-                <th scope="row">Thor Odinson</th>
-                <td>55555</td>
-                <td>Beach Boy</td>
-                <td>thor@avengers.com</td>
-                <td>@thor</td>
-              </tr>
+
+              {% for Usuarios in x %}
+                <tr>
+                  <td>{{Usuarios.nombre}}</td>
+                  <td>{{Usuarios.cedula}}</td>
+                  <td>{{Usuarios.cargo}}</td>
+                  <td>{{Usuarios.correo}}</td>
+                  <td>{{Usuarios.usuario}}</td>
+                </tr>
+              {% endfor %}
               
             </tbody>
             

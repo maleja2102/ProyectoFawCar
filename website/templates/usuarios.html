@@ -5,7 +5,20 @@
 {% endblock %}
 
 {% block alertas %}
-<p>Aqui va a haber alertas</p>
+{% with messages = get_flashed_messages(with_categories = true) %}
+    {% if messages %}
+
+      {% for message in messages %}
+        <div class="alert alert-danger alter-dismissable fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+
+    {% endif %}
+    {% endwith %}
 {% endblock %}
 <!-- TITULO EN LA INTERFAZ -->
 {% block tituloPagina %}
@@ -20,20 +33,22 @@ Usuarios
 
 <!-- CONTENIDO DE LA PAGINA -->
 {% block contenido %}
+<form class="col-auto" action="/usuarios/search" method="post">
 <div class="input-group mb-3">
   <div class="input-group-text p-0">
-      <select class="form-select form-select-lg shadow-none bg-light border-0">
-        <option>Nombre</option>  
-        <option>Usuario</option>
-        <option>Cédula</option>
-        <option>Cargo</option>
+      <select class="form-select form-select-lg shadow-none bg-light border-0" name="opt">
+        <option name="nombre" value="nombre" >Nombre</option>  
+        <option name="usuario" value="usuario">Usuario</option>
+        <option value="cedula">Cédula</option>
+        <option value="cargo">Cargo</option>
       </select>
   </div>
-  <input type="text" class="form-control" placeholder="Buscar...">
-  <button class="input-group-text shadow-none px-4 btn-primary">
+  <input type="text" class="form-control" placeholder="Buscar..." id="searchbox" name="searchbox">
+  <button type="submit" class="input-group-text shadow-none px-4 btn-primary">
     <i class='bx bx-search-alt-2'></i>
   </button>
 </div>
+</form>
     <div class="table-responsive">
         <table class="table table-bordered table-hover table-striped table-responsive">
             <thead>
@@ -46,42 +61,15 @@ Usuarios
               </tr>
             </thead>
             <tbody>
+              {% for Usuarios in usuarios %}
               <tr>
-                <th scope="row">Anthony Stark</th>
-                <td>1111111</td>
-                <td>Lider</td>
-                <td>iroman@avengers.com</td>
-                <td>@iroman</td>
+                <td>{{Usuarios.nombre}}</td>
+                <td>{{Usuarios.cedula}}</td>
+                <td>{{Usuarios.cargo}}</td>
+                <td>{{Usuarios.correo}}</td>
+                <th scope="row">{{Usuarios.usuario}}</th>
               </tr>
-              <tr>
-                <th scope="row">Natasha Romanov</th>
-                <td>22222</td>
-                <td>Espia</td>
-                <td>blackwidow@avengers.com</td>
-                <td>@blackwidow</td>
-              </tr>
-              <tr>
-                <th scope="row">Wanda Maximoff</th>
-                <td>333333</td>
-                <td>Bruja</td>
-                <td>scarletwitch@avengers.com</td>
-                <td>@scarletwith</td>
-              </tr>
-              <tr>
-                <th scope="row">Peter Parker</th>
-                <td>44444</td>
-                <td>Practicante</td>
-                <td>spiderman@avengers.com</td>
-                <td>@spiderman</td>
-              </tr>
-              <tr>
-                <th scope="row">Thor Odinson</th>
-                <td>55555</td>
-                <td>Beach Boy</td>
-                <td>thor@avengers.com</td>
-                <td>@thor</td>
-              </tr>
-              
+            {% endfor %}
             </tbody>
             
           </table>
@@ -119,10 +107,15 @@ Usuarios
           </div>
           <div class="row mb-3">
             <label for="inputPassword" class="col-sm-2 col-form-label">Contraseña</label>
-            <div class="col-sm-10">
+            <div class="col-sm-4">
               <input type="password" class="form-control" id="inputPassword" name="usuarios_clave">
             </div>
+            <label for="inputPassword" class="col-sm-2 col-form-label">Confirmar</label>
+            <div class="col-sm-4">
+              <input type="password" class="form-control" id="inputConfirmar" name="usuarios_confirmar">
+            </div>
           </div>
+          
           <div class="row mb-3">
             <label for="inputRol" class="col-sm-2 col-form-label">Rol</label>
             <div class="col-sm-10">
