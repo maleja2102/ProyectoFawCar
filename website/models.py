@@ -1,24 +1,27 @@
 from . import db
-from flask_login import UserMixin
 
 class Base(db.Model):
     __abstract__ = True
     id = db.Column(db.Integer, primary_key = True)
 
-class Usuarios(Base, UserMixin):
+class Usuarios(Base):
     nombre = db.Column(db.String(150))
     apellido = db.Column(db.String(150))
     usuario = db.Column(db.String(150), unique = True)
     clave = db.Column(db.String(150))
+    rol = db.Column(db.String(30))
     cedula = db.Column(db.Integer, unique = True)
     correo = db.Column(db.String(150), unique = True)
     cargo = db.Column(db.String(150))
+    imagen = db.Column(db.String)
 
 class Inventario(Base):
     marca = db.Column(db.String(150))
     modelo = db.Column(db.String(150))
     cantidad = db.Column(db.Integer)
     fecha_salida = db.Column(db.String(150))
+    cantidad_minima =db.Column(db.Integer)
+    imagen = db.Column(db.String)
     proveedor_id = db.Column(db.Integer, db.ForeignKey("proveedores.id"))
 
 class Proveedores(Base):
@@ -27,4 +30,5 @@ class Proveedores(Base):
     telefono = db.Column(db.String(150), unique = True)
     direccion = db.Column(db.String(150))
     correo = db.Column(db.String(150), unique = True)
+    imagen = db.Column(db.String)
     vehiculos = db.relationship("Inventario")
