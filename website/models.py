@@ -1,4 +1,5 @@
 from . import db
+from werkzeug.security import *
 
 class Base(db.Model):
     __abstract__ = True
@@ -14,6 +15,12 @@ class Usuarios(Base):
     correo = db.Column(db.String(150), unique = True)
     cargo = db.Column(db.String(150))
     imagen = db.Column(db.String)
+
+    def set_password(self, clave):
+        self.password = generate_password_hash(clave)
+
+    def check_password(self, clave):
+        return check_password_hash(self.clave, clave)
 
 class Inventario(Base):
     marca = db.Column(db.String(150))
