@@ -38,7 +38,7 @@
                         <!-- <li><a class="dropdown-item" href="#!">Configuraciones</a></li> -->
                         <li><a class="dropdown-item" href="#!">Perfil</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="/">Salir</a></li>
+                        <li><a class="dropdown-item" href="/logout">Salir</a></li>
                     </ul>
                 </li>
             </ul>
@@ -56,23 +56,28 @@
                                 Inicio
                             </a>
                             <!-- ROLES CON PERMISOS A USUARIOS -->
-                            
+                            {% if session["rol"]=="superadministrador" or session["rol"]=="administrador" %}
                             <a class="nav-link" href="/usuarios">
                                 <div class="sb-nav-link-icon"><i class='bx bxs-user'></i></div>
                                 Usuarios
                             </a>
+                            {% endif %}
 
                             <!-- INVENTARIO ESTA DISPONIBLE PARA  -->
+                            {% if session["rol"]=="superadministrador" or session["rol"]=="usuario" %}
                             <a class="nav-link" href="/inventario">
                                 <div class="sb-nav-link-icon"><i class='bx bxs-box'></i></div>
                                 Inventario
                             </a>
+                            {% endif %}
 
                             <!-- SOLO USUARIO Y SUPER ADMIN -->
+                            {% if session["rol"]=="superadministrador" or session["rol"]=="usuario" %}
                             <a class="nav-link" href="/proveedores">
                                 <div class="sb-nav-link-icon"><i class="fas fa-handshake"></i></div>
                                 Proveedores
                             </a>
+                            {% endif %}
                             <!-- {% if rol_usuario=="superadmin" or rol_usuario=="usuario" %} -->
                             <!-- {% endif %} -->
                         </div>

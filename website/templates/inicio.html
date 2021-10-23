@@ -3,6 +3,22 @@
 {% block title %}
 <title>Inicio</title>
 {% endblock %}
+{% block alertas %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+            <!-- <span aria-hidden="true">&times;</span> -->
+          </button>
+        </div>
+      {% endfor %}
+
+    {% endif %}
+    {% endwith %}
+{% endblock %}
 <!-- TITULO EN LA INTERFAZ -->
 {% block tituloPagina %}
 Inicio
@@ -72,6 +88,7 @@ Inicio
         </div>
     </div>
 </div>
+{% if session["rol"]=="superadministrador" or session["rol"]=="administrador" %}
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-table me-1"></i>
@@ -558,6 +575,7 @@ Inicio
                 </tr>
             </tbody>
         </table>
+        {% endif %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="{{ url_for('static', filename='assets/demo/chart-area-demo.js')}}"></script>
         <script src="{{ url_for('static', filename='assets/demo/chart-bar-demo.js')}}"></script>

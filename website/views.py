@@ -1,13 +1,12 @@
-from types import CodeType
 from flask import Blueprint, render_template, request, redirect, flash, session, Response, make_response
 from .models import Usuarios, Inventario, Proveedores,db
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-import codecs
+from markupsafe import escape
 import base64
 from PIL import Image
-import io
 from io import BytesIO
+
 
 
 views = Blueprint("views", __name__)
@@ -19,23 +18,31 @@ def ingreso():
 @views.route("/login", methods=["POST","GET"])
 def login():
     if request.method=="POST":
-        username_login = request.form["user"]
-        password = request.form["pass"]
+        username_login = escape(request.form["user"])
+        password = escape(request.form["pass"])
         log=Usuarios.query.filter_by(usuario=username_login).first()
 
         if log:
             if log.check_password(password):
                 session["user"]=log.usuario
                 session["rol"]=log.rol
+                session["nombre"]=log.nombre
+                flash("Bienvenido %s" % (session["nombre"]),"info")
                 return redirect("inicio")
-
         else:
-            flash("Usuario o contraseña incorrectos")
+            flash("Usuario o contraseña incorrectos","danger")
             return redirect("/")
     else:
         flash("el metodo no fue POST")
         return redirect("/")
           
+
+@views.route("/logout")
+def logout():
+    session.clear()
+    flash("has cerrado sesion","success")
+    return redirect("/")
+  
 
 @views.route("/inicio")
 def inicio():
@@ -43,11 +50,17 @@ def inicio():
 
 @views.route("/usuarios")
 def usuarios():
-    return render_template('usuarios.html',usuarios=Usuarios.query.all())
+    if "user" in session:
+        if session["rol"]=="superadministrador" or session["rol"]=="administrador":
+            return render_template('usuarios.html',usuarios=Usuarios.query.all())
+        else:
+            flash("no tienes permiso para acceder a esta pagina","danger")
+            return redirect("inicio")
+    flash("Debes iniciar sesion","danger")
+    return redirect("/")
 
 @views.route("/inventario")
 def inventario():
-
     return render_template('inventario.html')
 
 @views.route("/proveedores")
@@ -60,17 +73,16 @@ def proveedor():
 @views.route("/usuarios/add", methods=['POST'])
 def usuarios_add():
     # if request.method=='POST':
-    
-        nombre = request.form["usuarios_nombre"]
-        apellido = request.form["usuarios_apellido"]
-        usuario = request.form["usuarios_usuario"]
-        clave = request.form["usuarios_clave"]
-        confirmar = request.form["usuarios_confirmar"]
-        rol = request.form["usuarios_rol"]
-        cedula = request.form["usuarios_cedula"]
-        correo = request.form["usuarios_correo"]
-        cargo = request.form["usuarios_cargo"]
-        imagen = request.files["usuarios_imagen"]
+        nombre = escape(request.form["usuarios_nombre"])
+        apellido =escape(request.form["usuarios_apellido"])
+        usuario =escape(request.form["usuarios_usuario"])
+        clave =escape(request.form["usuarios_clave"])
+        confirmar =escape(request.form["usuarios_confirmar"])
+        rol =escape(request.form["usuarios_rol"])
+        cedula =escape(request.form["usuarios_cedula"])
+        correo =escape(request.form["usuarios_correo"])
+        cargo =escape(request.form["usuarios_cargo"])
+        imagen =request.files["usuarios_imagen"]
         filename=secure_filename(imagen.filename)
         mimetype=imagen.mimetype
         
@@ -79,7 +91,7 @@ def usuarios_add():
             user.set_password(clave)
             db.session.add(user)
             db.session.commit()
-            flash("usuario agregado exitosamente")
+            flash("usuario agregado exitosamente","info")
             return redirect("/usuarios")
 
 
@@ -95,7 +107,6 @@ def usuarios_search():
             x.save(w,'jpeg')
             imgcod=base64.b64encode(w.getvalue())
             return render_template("usuarios.html",usuarios=img,img=imgcod.decode('utf-8'))
-            #print(x)
         return render_template("usuarios.html",usuarios=Usuarios.query.filter_by(nombre=b),img=img)
     elif request.form.get("opt")=="usuario":
         return render_template("usuarios.html",usuarios=Usuarios.query.filter_by(usuario=b))
