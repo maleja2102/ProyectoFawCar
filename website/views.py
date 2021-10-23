@@ -1,7 +1,14 @@
-from os import name
-from flask import Blueprint, render_template, request, redirect, flash, session
+from types import CodeType
+from flask import Blueprint, render_template, request, redirect, flash, session, Response, make_response
 from .models import Usuarios, Inventario, Proveedores,db
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+import codecs
+import base64
+from PIL import Image
+import io
+from io import BytesIO
+
 
 views = Blueprint("views", __name__)
 
@@ -21,27 +28,14 @@ def login():
                 session["user"]=log.usuario
                 session["rol"]=log.rol
                 return redirect("inicio")
-            # else:
-            #     flash("contraseña incorrecta")
-            #     return redirect("/")
+
         else:
             flash("Usuario o contraseña incorrectos")
             return redirect("/")
     else:
         flash("el metodo no fue POST")
         return redirect("/")
-        
-
-
-
-    # if len(username_login) == 0:
-    #     flash("Escribe tu nombre de usuario", category="error")  
-    # elif len(password) == 0:
-    #     flash("Escribe tu contraseña", category="error")  
-    # else:
-    #     return redirect("inicio")
-
-    # return redirect("/")    
+          
 
 @views.route("/inicio")
 def inicio():
@@ -76,10 +70,12 @@ def usuarios_add():
         cedula = request.form["usuarios_cedula"]
         correo = request.form["usuarios_correo"]
         cargo = request.form["usuarios_cargo"]
-        # imagen = request.files["input"]
+        imagen = request.files["usuarios_imagen"]
+        filename=secure_filename(imagen.filename)
+        mimetype=imagen.mimetype
         
         if clave==confirmar:
-            user=Usuarios(nombre=nombre,apellido=apellido,usuario=usuario,rol=rol,cedula=cedula,correo=correo,cargo=cargo)
+            user=Usuarios(nombre=nombre,apellido=apellido,usuario=usuario,rol=rol,cedula=cedula,correo=correo,cargo=cargo,imagen=imagen.read(),name=filename,mimetype=mimetype)
             user.set_password(clave)
             db.session.add(user)
             db.session.commit()
@@ -91,7 +87,15 @@ def usuarios_add():
 def usuarios_search():
     b=request.form["searchbox"]
     if request.form.get("opt")=="nombre":
-        return render_template("usuarios.html",usuarios=Usuarios.query.filter_by(nombre=b))
+        img = Usuarios.query.filter_by(nombre=b)
+        for imgs in img:
+            x= Image.open(BytesIO(imgs.imagen))
+            w=BytesIO()
+            x.save(w,'jpeg')
+            imgcod=base64.b64encode(w.getvalue())
+            return render_template("usuarios.html",usuarios=img,img=imgcod.decode('utf-8'))
+            #print(x)
+        return render_template("usuarios.html",usuarios=Usuarios.query.filter_by(nombre=b),img=img)
     elif request.form.get("opt")=="usuario":
         return render_template("usuarios.html",usuarios=Usuarios.query.filter_by(usuario=b))
     elif request.form.get("opt")=="cargo":
@@ -140,6 +144,19 @@ def proveedores_delete():
 
 
 @views.route("/prueba")
-def prueba():
-    
-    return render_template('prueba.html',x=Usuarios.query.all())
+def convert_data(data, file_name):
+    # Convert binary format to images or files data
+    with open(file_name, 'wb') as file:
+        file.write(data)
+
+def convertToBinaryData(filename):
+    # Convert digital data to binary format
+    with open(filename, 'rb') as file:
+        blobData = file.read()
+    return blobData
+
+def writeTofile(data, filename):
+    # Convert binary data to proper format and write it on Hard Disk
+    with open(filename, 'wb') as file:
+        file.write(data)
+    print("Stored blob data into: ", filename, "\n")

@@ -5,14 +5,14 @@
 {% endblock %}
 
 {% block alertas %}
-{% with messages = get_flashed_messages(with_categories = true) %}
+{% with messages = get_flashed_messages() %}
     {% if messages %}
 
       {% for message in messages %}
-        <div class="alert alert-danger alter-dismissable fade show" role="alert">
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
           {{ message }}
-          <button type="button" class="close" data-dismiss="alert">
-            <span aria-hidden="true">&times;</span>
+          <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+            <!-- <span aria-hidden="true">&times;</span> -->
           </button>
         </div>
       {% endfor %}
@@ -58,6 +58,8 @@ Usuarios
                 <th scope="col">Cargo</th>
                 <th scope="col">Correo</th>
                 <th scope="col">Usuario</th>
+                <th scope="col">foto</th>
+           
               </tr>
             </thead>
             <tbody>
@@ -68,6 +70,8 @@ Usuarios
                 <td>{{Usuarios.cargo}}</td>
                 <td>{{Usuarios.correo}}</td>
                 <th scope="row">{{Usuarios.usuario}}</th>
+                <td><img src="data:image/jpeg, {{Usuarios.imagen}}"></td>
+
               </tr>
             {% endfor %}
             </tbody>
@@ -80,13 +84,16 @@ Usuarios
   <div class="card mb-3">
   <div class="row g-0">
     <div class="col-md-4">
-      <img src="{{ url_for('static', filename='images/user.jpg') }}" class="img-fluid rounded-start" alt="...">
+      <img src="{{ url_for('static', filename='images/user.jpg') }}" class="img-fluid rounded-start" alt="usuario">
+      <img src="data:image/jpeg;base64,{{img}}" class="img-fluid rounded-start" alt="usuario">
+      
+     
     </div>
     <div class="col-md-8">
       <div class="card-body">
 
         <h5 class="card-title">Usuario</h5>
-        <form action="/usuarios/add" method="POST" id="form_usuarios">
+        <form action="/usuarios/add" method="POST" id="form_usuarios" enctype="multipart/form-data">
           <div class="row mb-3">
             <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
             <div class="col-sm-10">

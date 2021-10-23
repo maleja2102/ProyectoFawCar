@@ -14,7 +14,9 @@ class Usuarios(Base):
     cedula = db.Column(db.Integer, unique = True)
     correo = db.Column(db.String(150), unique = True)
     cargo = db.Column(db.String(150))
-    imagen = db.Column(db.String)
+    imagen = db.Column(db.Text, unique=True, nullable=False)
+    name = db.Column(db.Text, nullable=False)
+    mimetype = db.Column(db.Text, nullable=False)
 
     def set_password(self, clave):
         self.clave = generate_password_hash(clave)
@@ -28,7 +30,9 @@ class Inventario(Base):
     cantidad = db.Column(db.Integer)
     fecha_salida = db.Column(db.String(150))
     cantidad_minima =db.Column(db.Integer)
-    imagen = db.Column(db.String)
+    imagen = db.Column(db.Text, unique=True, nullable=False)
+    name = db.Column(db.Text, nullable=False)
+    mimetype = db.Column(db.Text, nullable=False)
     proveedor_id = db.Column(db.Integer, db.ForeignKey("proveedores.id"))
 
 class Proveedores(Base):
@@ -37,5 +41,7 @@ class Proveedores(Base):
     telefono = db.Column(db.String(150), unique = True)
     direccion = db.Column(db.String(150))
     correo = db.Column(db.String(150), unique = True)
-    imagen = db.Column(db.String)
+    imagen = db.Column(db.Text, unique=True, nullable=False)
+    name = db.Column(db.Text, nullable=False)
+    mimetype = db.Column(db.Text, nullable=False)
     vehiculos = db.relationship("Inventario")
