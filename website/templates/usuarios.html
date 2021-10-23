@@ -83,7 +83,7 @@ Usuarios
   <div class="row g-0">
     <div class="col-md-4">
       <img src="{{ url_for('static', filename='images/user.jpg') }}" class="img-fluid rounded-start" alt="usuario">
-      <img src="data:image/jpeg;base64,{{img}}" class="img-fluid rounded-start" alt="usuario">
+      <img src="data:image/{{tipo}};base64,{{img}}" class="img-fluid rounded-start" alt="usuario">
     </div>
     <div class="col-md-8">
       <div class="card-body">
