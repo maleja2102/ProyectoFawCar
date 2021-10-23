@@ -91,6 +91,7 @@ def usuarios_search():
         for imgs in img:
             x= Image.open(BytesIO(imgs.imagen))
             w=BytesIO()
+            x=x.resize((480,480))
             x.save(w,'jpeg')
             imgcod=base64.b64encode(w.getvalue())
             return render_template("usuarios.html",usuarios=img,img=imgcod.decode('utf-8'))
