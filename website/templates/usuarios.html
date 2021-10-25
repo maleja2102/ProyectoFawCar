@@ -46,18 +46,24 @@ Usuarios
   <input type="text" class="form-control" placeholder="Buscar..." id="searchbox" name="searchbox">
   <button type="submit" class="input-group-text shadow-none px-4 btn-primary">
     <i class='bx bx-search-alt-2'></i>
+    <button type="submit" class="input-group-text shadow-none px-4 btn-dark" onclick="usuarios_search();">
+      <i class='bx bx-refresh'></i>
   </button>
 </div>
 </form>
     <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped table-responsive">
+        <table class="table table-bordered  table-striped table-responsive" id="usertable">
             <thead>
               <tr>
                 <th scope="col">Nombre</th>
-                <th scope="col">Cédula</th>
-                <th scope="col">Cargo</th>
-                <th scope="col">Correo</th>
+                <th scope="col">Apellido</th>
                 <th scope="col">Usuario</th>
+                <th scope="col"hidden>Contraseña</th>
+                <th scope="col"hidden>Rol</th>
+                <th scope="col">Cédula</th>
+                <th scope="col"hidden>Correo</th>
+                <th scope="col">Cargo</th>
+                <th scope="col" hidden>Imagen</th>
            
               </tr>
             </thead>
@@ -65,11 +71,14 @@ Usuarios
               {% for Usuarios in usuarios %}
               <tr>
                 <td>{{Usuarios.nombre}}</td>
+                <td>{{Usuarios.apellido}}</td>
+                <td>{{Usuarios.usuario}}</td>
+                <td hidden>{{Usuarios.clave}}</td>
+                <td hidden>{{Usuarios.rol}}</td>
                 <td>{{Usuarios.cedula}}</td>
+                <td hidden>{{Usuarios.correo}}</td>
                 <td>{{Usuarios.cargo}}</td>
-                <td>{{Usuarios.correo}}</td>
-                <th scope="row">{{Usuarios.usuario}}</th>
-
+                <td hidden>data:image/{{Usuarios.mimetype}};base64,{{Usuarios.imagen}}</td>
               </tr>
             {% endfor %}
             </tbody>
@@ -82,8 +91,8 @@ Usuarios
   <div class="card mb-3">
   <div class="row g-0">
     <div class="col-md-4">
-      <img src="{{ url_for('static', filename='images/user.jpg') }}" class="img-fluid rounded-start" alt="usuario">
-      <img src="data:image/{{tipo}};base64,{{img}}" class="img-fluid rounded-start" alt="usuario">
+      <!-- <img src="{{ url_for('static', filename='images/user.jpg') }}" class="img-fluid rounded-start" alt="usuario"> -->
+      <img src="data:image/{{tipo}};base64,{{img}}" class="img-fluid rounded-start" alt="usuario" id="userImage">
     </div>
     <div class="col-md-8">
       <div class="card-body">
@@ -103,9 +112,9 @@ Usuarios
             </div>
           </div>
           <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Correo</label>
+            <label for="inputEmail" class="col-sm-2 col-form-label">Correo</label>
             <div class="col-sm-10">
-              <input type="email" class="form-control" id="inputEmail3" name="usuarios_correo">
+              <input type="email" class="form-control" id="inputEmail" name="usuarios_correo">
             </div>
           </div>
           <div class="row mb-3">

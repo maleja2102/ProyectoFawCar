@@ -61,7 +61,17 @@ def inicio():
 def usuarios():
     if "user" in session:
         if session["rol"]=="superadministrador" or session["rol"]=="administrador":
-            return render_template('usuarios.html',usuarios=Usuarios.query.all())
+            usuarios=Usuarios.query.all()
+            for usuario in usuarios:
+                if usuario.imagen:
+                    w=BytesIO()
+                    x= Image.open(BytesIO(usuario.imagen))
+                    # x=x.resize((80,80))
+                    x.save(w, usuario.mimetype)
+                    imgcod=base64.b64encode(w.getvalue())
+                    usuario.imagen=imgcod.decode('utf-8')
+                    # usuario.clave = check_password_hash(usuario.clave)
+            return render_template('usuarios.html',usuarios=usuarios)
         else:
             flash("no tienes permiso para acceder a esta pagina","danger")
             return redirect("inicio")
@@ -109,7 +119,9 @@ def usuarios_add():
         cargo =escape(request.form["usuarios_cargo"]).lower()
         imagen =request.files["usuarios_imagen"]
         filename=secure_filename(imagen.filename)
-        mimetype=imagen.mimetype
+        mimetype= imagen.mimetype
+        mimetype=mimetype.split("/")
+        mimetype=mimetype[1]
         
         if clave==confirmar:
             user=Usuarios(nombre=nombre,apellido=apellido,usuario=usuario,rol=rol,cedula=cedula,correo=correo,cargo=cargo,imagen=imagen.read(),name=filename,mimetype=mimetype)
@@ -120,32 +132,29 @@ def usuarios_add():
             return redirect("/usuarios")
         else:
             flash("Las contraseñas no coinciden", "warning")
+            return redirect("/usuarios")
+
 
 
 @views.route("/usuarios/search", methods=['POST'])
 def usuarios_search():
-    b=request.form["searchbox"].lower()
-    if request.form.get("opt")=="nombre":
-        img = Usuarios.query.filter_by(nombre=b)
-        for imgs in img:
-            tipo=imgs.mimetype
-            tipo=str(tipo)
-            tipo=tipo.split("/")
-            tipo=tipo[1]
-            x= Image.open(BytesIO(imgs.imagen))
+    b="%{}%".format(request.form["searchbox"])
+    h=request.form.get("opt")
+
+    usuarios = Usuarios.query.filter(getattr(Usuarios, h).ilike(b))
+
+    for usuario in usuarios:
+
+        if usuario.imagen:
+            tipo =usuario.mimetype
             w=BytesIO()
-            x=x.resize((480,480))
-            
+            x= Image.open(BytesIO(usuario.imagen))
+            # x=x.resize((80,80))
             x.save(w,tipo)
             imgcod=base64.b64encode(w.getvalue())
-            return render_template("usuarios.html",usuarios=img,img=imgcod.decode('utf-8'),tipo=tipo)
-        return render_template("usuarios.html",usuarios=Usuarios.query.filter_by(nombre=b),img=img)
-    elif request.form.get("opt")=="usuario":
-        return render_template("usuarios.html",usuarios=Usuarios.query.filter_by(usuario=b))
-    elif request.form.get("opt")=="cargo":
-        return render_template("usuarios.html",usuarios=Usuarios.query.filter_by(cargo=b))
-    elif request.form.get("opt")=="cedula":
-        return render_template("usuarios.html",usuarios=Usuarios.query.filter_by(cedula=b))
+            usuario.imagen=imgcod.decode('utf-8')
+            return render_template('usuarios.html',usuarios=usuarios)
+        # return render_template("usuarios.html",usuarios=Usuarios.query.filter_by(nombre=b))
     
     flash("usuario no encontrado")
     return render_template('usuarios.html',usuarios=Usuarios.query.all())
@@ -154,19 +163,19 @@ def usuarios_search():
 def usuarios_update():
     nombre_usuario=escape(request.form["usuarios_usuario"])
     user=Usuarios.query.filter_by(usuario=nombre_usuario).first()
-    # user.nombre = escape(request.form["usuarios_nombre"]).lower()
-    # user.apellido =escape(request.form["usuarios_apellido"]).lower()
+
+    user.nombre = escape(request.form["usuarios_nombre"])
+    user.apellido =escape(request.form["usuarios_apellido"])
     # user.usuario =escape(request.form["usuarios_usuario"])
-    # user.clave =escape(request.form["usuarios_clave"]).lower()
+    user.clave =escape(request.form["usuarios_clave"])
     # user.confirmar =escape(request.form["usuarios_confirmar"]).lower()
-    # user.rol =escape(request.form["usuarios_rol"]).lower()
-    # user.cedula =escape(request.form["usuarios_cedula"]).lower()
-    # user.correo =escape(request.form["usuarios_correo"]).lower()
-    # user.cargo =escape(request.form["usuarios_cargo"]).lower()
-    # user.imagen =request.files["usuarios_imagen"]
-    # user.name=secure_filename(user.imagen.filename)
-    # user.mimetype=user.imagen.mimetype
-    user.nombre="La viuda Negra"
+    user.rol =escape(request.form["usuarios_rol"])
+    user.cedula =escape(request.form["usuarios_cedula"])
+    user.correo =escape(request.form["usuarios_correo"]).lower()
+    user.cargo =escape(request.form["usuarios_cargo"])
+    user.imagen =request.files["usuarios_imagen"].read()
+    user.name=secure_filename(user.imagen.filename)
+    user.mimetype=user.imagen.mimetype
     db.session.commit()
     return redirect("/usuarios")
 
@@ -218,19 +227,5 @@ def proveedores_delete():
 
 
 @views.route("/prueba")
-def convert_data(data, file_name):
-    # Convert binary format to images or files data
-    with open(file_name, 'wb') as file:
-        file.write(data)
-
-def convertToBinaryData(filename):
-    # Convert digital data to binary format
-    with open(filename, 'rb') as file:
-        blobData = file.read()
-    return blobData
-
-def writeTofile(data, filename):
-    # Convert binary data to proper format and write it on Hard Disk
-    with open(filename, 'wb') as file:
-        file.write(data)
-    print("Stored blob data into: ", filename, "\n")
+def prueba():
+    return render_template("prueba.html")
