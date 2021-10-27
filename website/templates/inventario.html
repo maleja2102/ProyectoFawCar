@@ -5,7 +5,20 @@
 {% endblock %}
 
 {% block alertas %}
-<p>Aqui va a haber alertas</p>
+  {% with messages = get_flashed_messages(with_categories = true) %}
+  {% if messages %}
+
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alter-dismissable fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
+
+  {% endif %}
+  {% endwith %}
 {% endblock %}
 <!-- TITULO EN LA INTERFAZ -->
 {% block tituloPagina %}
@@ -33,7 +46,7 @@ Inventario
   </button>
 </div>
     <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped table-responsive">
+        <table class="table table-bordered table-hover table-striped table-responsive" id="inventariotable">
             <thead>
               <tr>
                 <th scope="col">Id</th>
@@ -43,17 +56,18 @@ Inventario
                 <th scope="col">Año</th>
                 <th scope="col">Cantidad mínima</th>
                 <th scope="col">Proveedor</th>
+                <th scope="col">Proveedor</th>
               </tr>
             </thead>
             <tbody>
-              {% for inventario in inventarios %}
+              {% for inventario in inventario %}
               <tr>
                 <td>{{inventario.id}}</td>
                 <td>{{inventario.marca}}</td>
                 <td>{{inventario.modelo}}</td>
                 <td>{{inventario.cantidad}}</td>
                 <td>{{inventario.fecha_salida}}</td>
-                <td>{{inventario.cantidad_minima}}</td>
+                <td>{{inventario.cantidadminima}}</td>
                 <td>{{inventario.proveedor_id}}</td>
                 <td hidden>data:image/{{inventario.mimetype}};base64,{{inventario.imagen}}</td>
               </tr>
@@ -73,9 +87,9 @@ Inventario
       <div class="card-body">
 
         <h5 class="card-title">Vehículo</h5>
-        <form action="/inventario/add" method="POST" id="form_inventario">
+        <form action="/inventario/add" method="POST" id="form_inventario" enctype="multipart/form-data">
           <div class="row mb-3">
-            <label for="marca" class="col-sm-2 col-form-label">ID</label>
+            <label for="Id" class="col-sm-2 col-form-label">ID</label>
             <div class="col-sm-9">
               <input type="numer" class="form-control" id="id" name="inventario_id" readonly>
             </div>
@@ -107,13 +121,7 @@ Inventario
           <div class="row mb-3">
             <label for="cantidadMin" class="col-sm-2 col-form-label">Cantidad Minima</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="cantidadMin" name="inventario_fecha_salida">
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="inventarioAvatar" class="col-sm-2 col-form-label">Imagen</label>
-            <div class="col-sm-10">
-              <input type="file" id="inventarioAvatar" name="inventario_imagen" accept="image/png, image/jpeg">
+              <input type="text" class="form-control" id="cantidadMin" name="inventario_cantidadminima">
             </div>
           </div>
           <div class="row mb-3">
@@ -122,11 +130,10 @@ Inventario
               <input type="text" class="form-control" id="Proveedor" name="inventario_fecha_salida">
             </div>
           </div>
-
           <div class="row mb-3">
             <label for="avatar" class="col-sm-2 custom-file-label">Imagen</label>
             <div class="col-sm-10 custom-file">
-              <input type="file" id="avatar" class="form-control" name="usuarios_imagen" accept="image/png, image/jpeg">
+              <input type="file" id="avatar" class="form-control" name="inventario_imagen" accept="image/png, image/jpeg">
             </div>
           </div>
           <div class="row mb-3">

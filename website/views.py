@@ -220,7 +220,7 @@ def inventario_add():
         modelo =escape(request.form["inventario_modelo"]).lower()
         cantidad =escape(request.form["inventario_cantidad"])
         fecha_salida =escape(request.form["inventario_fecha_salida"]).lower()
-        cantidad_minima =escape(request.form["inventario_cantidad_minima"]).lower()
+        cantidad_minima =escape(request.form["inventario_cantidadminima"])
         imagen =request.files["inventario_imagen"]
         filename=secure_filename(imagen.filename)
         mimetype= imagen.mimetype
@@ -243,7 +243,7 @@ def inventario_update():
     prod.modelo =escape(request.form["inventario_modelo"]).lower()
     prod.cantidad =escape(request.form["inventario_cantidad"])
     prod.fecha_salida =escape(request.form["inventario_fecha_salida"]).lower()
-    prod.cantidad_minima =escape(request.form["inventario_cantidad_minima"]).lower()
+    prod.cantidad_minima =escape(request.form["inventario_cantidadminima"])
     prod.imagen =request.files["inventario_imagen"].read()
     prod.filename=secure_filename(prod.imagen.filename)
     prod.mimetype=prod.imagen.mimetype

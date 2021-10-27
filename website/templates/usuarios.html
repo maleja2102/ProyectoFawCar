@@ -5,20 +5,20 @@
 {% endblock %}
 
 {% block alertas %}
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
+  {% with messages = get_flashed_messages(with_categories = true) %}
+  {% if messages %}
 
-      {% for message in messages %}
-        <div class="alert alert-primary alert-dismissible fade show" role="alert">
-          {{ message }}
-          <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
-            <!-- <span aria-hidden="true">&times;</span> -->
-          </button>
-        </div>
-      {% endfor %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alter-dismissable fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
 
-    {% endif %}
-    {% endwith %}
+  {% endif %}
+  {% endwith %}
 {% endblock %}
 <!-- TITULO EN LA INTERFAZ -->
 {% block tituloPagina %}

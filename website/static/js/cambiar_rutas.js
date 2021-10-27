@@ -29,9 +29,26 @@ function proveedores_delete() {
     document.getElementById("form_proveedores").action = "/proveedores/delete";
 }
 
-
+// USUARIOS SELECT
 $(document).ready( function () {
     var table = $('#usertable').DataTable({
+        paging: false,
+        searching: false,
+        info:false,
+        "columnDefs": [
+            {
+                "targets": [ 3 ],
+                "visible": false,
+            },
+            {
+                "targets": [ 4 ],
+                "visible": false,
+            }
+        ]
+
+    });
+
+    var table1 = $('#inventariotable').DataTable({
         paging: false,
         searching: false,
         info:false,
@@ -72,5 +89,5 @@ $(document).ready( function () {
         
     });
     $("#usertable tbody tr:eq(0)").click();
-} )
 
+} )

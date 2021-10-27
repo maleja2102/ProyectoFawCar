@@ -32,7 +32,7 @@ Proveedores
   </button>
 </div>
     <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped table-responsive">
+        <table class="table table-bordered table-hover table-striped table-responsive" id="provtable">
             <thead>
               <tr>
                 <th scope="col">ID</th>
@@ -71,7 +71,7 @@ Proveedores
       <div class="card-body">
 
         <h5 class="card-title">Proveedor</h5>
-        <form action="/proveedores/add" method="POST" id="form_proveedores">
+        <form action="/proveedores/add" method="POST" id="form_proveedores" enctype="multipart/form-data">
           <div class="row mb-3">
             <label for="inputPassword3" class="col-sm-2 col-form-label">Empresa</label>
             <div class="col-sm-10">
