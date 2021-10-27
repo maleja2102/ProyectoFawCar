@@ -21,7 +21,7 @@ Inventario
 {% block contenido %}
 <div class="input-group mb-3">
   <div class="input-group-text p-0">
-      <select class="form-select form-select-lg shadow-none bg-light border-0">
+      <select class="form-select form-select-lg shadow-none bg-light border-0" name="opt_inventario">
         <option>Marca</option>  
         <option>Modelo</option>
         <option>Año</option>
@@ -39,44 +39,25 @@ Inventario
                 <th scope="col">Id</th>
                 <th scope="col">Marca</th>
                 <th scope="col">Modelo</th>
-                <th scope="col">Año</th>
                 <th scope="col">Cantidad</th>
+                <th scope="col">Año</th>
+                <th scope="col">Cantidad mínima</th>
                 <th scope="col">Proveedor</th>
               </tr>
             </thead>
             <tbody>
+              {% for inventario in inventarios %}
               <tr>
-                <th scope="row">1</th>
-                <td>Kia</td>
-                <td>picanto</td>
-                <td>2022</td>
-                <td>10</td>
-                <td>Kia Motors</td>
+                <td>{{inventario.id}}</td>
+                <td>{{inventario.marca}}</td>
+                <td>{{inventario.modelo}}</td>
+                <td>{{inventario.cantidad}}</td>
+                <td>{{inventario.fecha_salida}}</td>
+                <td>{{inventario.cantidad_minima}}</td>
+                <td>{{inventario.proveedor_id}}</td>
+                <td hidden>data:image/{{inventario.mimetype}};base64,{{inventario.imagen}}</td>
               </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Chevrolet</td>
-                <td>Spark gt</td>
-                <td>2022</td>
-                <td>6</td>
-                <td>Contoso S.A</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Nissan</td>
-                <td>March</td>
-                <td>2022</td>
-                <td>4</td>
-                <td>Dinissan</td>
-              </tr>
-              <tr>
-                <th scope="row">4</th>
-                <td>Hyundai</td>
-                <td>Tucson</td>
-                <td>2022</td>
-                <td>3</td>
-                <td>Hyundai</td>
-              </tr>
+            {% endfor %}
             </tbody>
             
           </table>
@@ -93,6 +74,12 @@ Inventario
 
         <h5 class="card-title">Vehículo</h5>
         <form action="/inventario/add" method="POST" id="form_inventario">
+          <div class="row mb-3">
+            <label for="marca" class="col-sm-2 col-form-label">ID</label>
+            <div class="col-sm-9">
+              <input type="numer" class="form-control" id="id" name="inventario_id" readonly>
+            </div>
+          </div>
           <div class="row mb-3">
             <label for="marca" class="col-sm-2 col-form-label">Marca</label>
             <div class="col-sm-9">
@@ -133,6 +120,13 @@ Inventario
             <label for="Proveedor" class="col-sm-2 col-form-label">Proveedor</label>
             <div class="col-sm-9">
               <input type="text" class="form-control" id="Proveedor" name="inventario_fecha_salida">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="avatar" class="col-sm-2 custom-file-label">Imagen</label>
+            <div class="col-sm-10 custom-file">
+              <input type="file" id="avatar" class="form-control" name="usuarios_imagen" accept="image/png, image/jpeg">
             </div>
           </div>
           <div class="row mb-3">

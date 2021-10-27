@@ -21,7 +21,7 @@ Proveedores
 {% block contenido %}
 <div class="input-group mb-3">
   <div class="input-group-text p-0">
-      <select class="form-select form-select-lg shadow-none bg-light border-0">
+      <select class="form-select form-select-lg shadow-none bg-light border-0" name="opt_proveedores">
         <option>Empresa</option>  
         <option>ID</option>
       </select>
@@ -44,46 +44,16 @@ Proveedores
               </tr>
             </thead>
             <tbody>
+              {% for proveedor in proveedor %}
               <tr>
-                <th scope="row">001</th>
+                <th scope="row">{{proveedor.empresa}}</th>
                 <td>Volkswagen Group</td>
                 <td>Cleveland	Shephard</td>
                 <td>8776426357</td>
                 <td>2918 Evergreen Park</td>
                 <td>cshephard0@t.co</td>
               </tr>
-              <tr>
-                <th scope="row">002</th>
-                <td>Toyota Motor</td>
-                <td>Nehemiah	Tincknell</td>
-                <td>7243173802</td>
-                <td>04426 Daystar Parkway</td>
-                <td>ntincknell1@mozilla.org</td>
-              </tr>
-              <tr>
-                <th scope="row">003</th>
-                <td>Daimler</td>
-                <td>Mirella	Lightbourn</td>
-                <td>4045165612</td>
-                <td>34912 Burning Wood Center</td>
-                <td>mlightbourn2@wisc.edu</td>
-              </tr>
-              <tr>
-                <th scope="row">004</th>
-                <td>Ford Motor</td>
-                <td>Maiga	Richten</td>
-                <td>2638407258</td>
-                <td>2597 Barby Trail</td>
-                <td>mrichten3@indiegogo.com</td>
-              </tr>
-              <tr>
-                <th scope="row">005</th>
-                <td>BMW Group</td>
-                <td>Trescha	Giannoni</td>
-                <td>2773696499</td>
-                <td>2808 American Way</td>
-                <td>tgiannoni4@youtube.com</td>
-              </tr>
+              {%endfor%}
               
             </tbody>
             
@@ -135,7 +105,7 @@ Proveedores
           <div class="row mb-3">
             <label for="imagProveedor" class="col-sm-2 col-form-label">Imagen</label>
             <div class="col-sm-10">
-              <input type="file" id="imagProveedor" name="proveedor_imagen" accept="image/png, image/jpeg">
+              <input type="file" id="imagProveedor" name="imgproveedor" accept="image/png, image/jpeg">
             </div>
           </div>
           <div class="row mb-3">

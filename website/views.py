@@ -8,7 +8,6 @@ from PIL import Image
 from io import BytesIO
 
 
-
 views = Blueprint("views", __name__)
 
 @views.route("/")
@@ -82,7 +81,15 @@ def usuarios():
 def inventario():
     if "user" in session: #VERIFICAR SI SE INICIO SESION
         if session["rol"]=="superadministrador" or session["rol"]=="administrador": #VERIFICAR SI EL ROL TIENE ACCESO
-            return render_template('inventario.html')
+            inventarios = Inventario.query.all()
+            for inventario in inventarios:
+                if inventario.imagen:
+                    w=BytesIO()
+                    x= Image.open(BytesIO(inventario.imagen))
+                    x.save(w,inventario.mimetype)
+                    imgcod=base64.b64encode(w.getvalue())
+                    inventario.imagen=imgcod.decode('utf-8')
+            return render_template('inventario.html',inventario=inventarios)
         else: #SI EL ROL NO TIENE ACCESO SE NOTIFICA AL USUARIO Y SE LE ENVIA AL INICIO
             flash("no tienes permiso para acceder a esta pagina","danger")
             return redirect("inicio")
@@ -92,16 +99,24 @@ def inventario():
 
 @views.route("/proveedores")
 def proveedor():
-        if "user" in session: #VERIFICAR SI SE INICIO SESION
+        if "user" in session: #VERIFICAR SI SE INICIO SESION no cambiar
             if session["rol"]=="superadministrador" or session["rol"]=="administrador": #VERIFICAR SI EL ROL TIENE ACCESO
-                return render_template('proveedores.html')
+                proveedores = Proveedores.query.all()
+                for proveedor in proveedores:
+                    if proveedor.imagen:
+                        w=BytesIO()
+                        x= Image.open(BytesIO(proveedor.imagen))
+                        x.save(w,proveedor.mimetype)
+                        imgcod=base64.b64encode(w.getvalue())
+                        proveedor.imagen=imgcod.decode('utf-8')
+                return render_template('proveedores.html',proveedor= proveedores)
             else: #SI EL ROL NO TIENE ACCESO SE NOTIFICA AL USUARIO Y SE LE ENVIA AL INICIO
                 flash("no tienes permiso para acceder a esta pagina","danger")
                 return redirect("inicio")
         #SI NO HAY SESION, SE DEBE INICIAR SESION
         flash("Debes iniciar sesion","danger")
         return redirect("/")
-    
+
 
 # CRUD ROUTES
 # USUARIOS
@@ -124,7 +139,7 @@ def usuarios_add():
         mimetype=mimetype[1]
         
         if clave==confirmar:
-            user=Usuarios(nombre=nombre,apellido=apellido,usuario=usuario,rol=rol,cedula=cedula,correo=correo,cargo=cargo,imagen=imagen.read(),name=filename,mimetype=mimetype)
+            user= Usuarios(nombre=nombre,apellido=apellido,usuario=usuario,rol=rol,cedula=cedula,correo=correo,cargo=cargo,imagen=imagen.read(),name=filename,mimetype=mimetype)
             user.set_password(clave)
             db.session.add(user)
             db.session.commit()
@@ -133,7 +148,6 @@ def usuarios_add():
         else:
             flash("Las contraseñas no coinciden", "warning")
             return redirect("/usuarios")
-
 
 
 @views.route("/usuarios/search", methods=['POST'])
@@ -158,6 +172,7 @@ def usuarios_search():
     
     flash("usuario no encontrado")
     return render_template('usuarios.html',usuarios=Usuarios.query.all())
+
 
 @views.route("/usuarios/update", methods=['POST'])
 def usuarios_update():
@@ -201,29 +216,153 @@ def usuarios_delete():
 # INVENTARIO
 @views.route("/inventario/add", methods=['POST'])
 def inventario_add():
-    return redirect("/inventario")
+        marca = escape(request.form["inventario_marca"]).lower()
+        modelo =escape(request.form["inventario_modelo"]).lower()
+        cantidad =escape(request.form["inventario_cantidad"])
+        fecha_salida =escape(request.form["inventario_fecha_salida"]).lower()
+        cantidad_minima =escape(request.form["inventario_cantidad_minima"]).lower()
+        imagen =request.files["inventario_imagen"]
+        filename=secure_filename(imagen.filename)
+        mimetype= imagen.mimetype
+        mimetype=mimetype.split("/")
+        mimetype=mimetype[1]
+
+        prod=Inventario(marca=marca,modelo=modelo,cantidad=cantidad,fecha_salida=fecha_salida,cantidad_minima=cantidad_minima,imagen=imagen.read(),name=filename,mimetype=mimetype)
+        db.session.add(prod)
+        db.session.commit()
+        flash("Articulo agregado exitosamente","info")
+        return redirect("/inventario")
+  
 
 @views.route("/inventario/update", methods=['POST'])
 def inventario_update():
-    pass
+    id_producto=escape(request.form["inventarios_id"])
+    prod=Inventario.query.filter_by(usuario=id_producto).first()
+
+    prod.marca = escape(request.form["inventario_marca"]).lower()
+    prod.modelo =escape(request.form["inventario_modelo"]).lower()
+    prod.cantidad =escape(request.form["inventario_cantidad"])
+    prod.fecha_salida =escape(request.form["inventario_fecha_salida"]).lower()
+    prod.cantidad_minima =escape(request.form["inventario_cantidad_minima"]).lower()
+    prod.imagen =request.files["inventario_imagen"].read()
+    prod.filename=secure_filename(prod.imagen.filename)
+    prod.mimetype=prod.imagen.mimetype
+    prod.db.session.commit()
+    return redirect("/inventarios")
+
 
 @views.route("/inventario/delete", methods=['POST'])
 def inventario_delete():
-    return redirect("/inventario")
+    
+    id_articulo =escape(request.form["inventario_id"])
 
+    if len(id_articulo) == 0:
+        flash("Seleccione un articulo para eliminarlo", "danger")
+        return redirect("/inventario")
+    else:
+        articulo = Inventario.query.filter_by(id=id_articulo).first()
+        if articulo:
+            db.session.delete(articulo)
+            db.session.commit()
+            flash("Articulo eliminado", "success")
+            return redirect("/inventario")
+        else:
+            flash("Articulo no encontrado", "warning")
+            return redirect("/inventario")
+
+    
+
+
+@views.route("inventario/search", methods=['POST'])
+def inventario_search():
+    b="%{}%".format(request.form["searchbox"])
+    h=request.form.get("opt_inventario")
+
+    inventarios = Inventario.query.filter(getattr(Inventario, h).ilike(b))
+
+    for inventario in inventarios:
+
+        if inventario.imagen:
+            tipo =inventario.mimetype
+            w=BytesIO()
+            x= Image.open(BytesIO(inventario.imagen))
+            # x=x.resize((80,80))
+            x.save(w,tipo)
+            imgcod=base64.b64encode(w.getvalue())
+            inventario.imagen=imgcod.decode('utf-8')
+            return render_template('inventario.html',inventario=inventarios)
+    
+    flash("inventario no encontrado")
+    return render_template('proveinventariosedor.html',inventario=Inventario.query.all())
 
 # PROVEEDORES
 @views.route("/proveedores/add", methods=['POST'])
 def proveedores_add():
-    pass
+    empresa = escape(request.form["proveedores_empresa"])
+    contacto =escape(request.form["proveedores_contacto"])
+    telefono =escape(request.form["proveedores_telefono"])
+    direccion =escape(request.form["proveedores_direccion"])
+    correo =escape(request.form["proveedores_correo"])
+    imagen =request.files["imgproveedor"]
+    filename=secure_filename(imagen.filename)
+    mimetype= imagen.mimetype
+    mimetype=mimetype.split("/")
+    mimetype=mimetype[1]
+        
+
+    proveedor = Proveedores(empresa=empresa,contacto=contacto,telefono=telefono,direccion=direccion,correo=correo,imagen=imagen.read(),name=filename,mimetype=mimetype)
+    db.session.add(proveedor)
+    db.session.commit()
+    flash("Proveedor agregado exitosamente","info")
+    return redirect("/proveedores")
+
 
 @views.route("/proveedores/update", methods=['POST'])
 def proveedores_update():
-    pass
+
+    nombre_usuario=escape(request.form["proveedor_usuario"])
+    provee=Proveedores.query.filter_by(usuario=nombre_usuario).first()
+
+    provee.apellido =escape(request.form["proveedor_apellido"])
+    # provee.usuario =escape(request.form["proveedor_usuario"])
+    provee.clave =escape(request.form["proveedor_clave"])
+    # provee.confirmar =escape(request.form["proveedor_confirmar"]).lower()
+    provee.rol =escape(request.form["proveedor_rol"])
+    provee.cedula =escape(request.form["proveedor_cedula"])
+    provee.correo =escape(request.form["proveedor_correo"]).lower()
+    provee.cargo =escape(request.form["proveedor_cargo"])
+    provee.imagen =request.files["proveedor_imagen"].read()
+    provee.name=secure_filename(provee.imagen.filename)
+    provee.mimetype=provee.imagen.mimetype
+    db.session.commit()
+    return redirect("/proveedores")
 
 @views.route("/proveedores/delete", methods=['POST'])
 def proveedores_delete():
     return redirect("/proveedores")
+
+@views.route("/proveedores/search", methods=['POST'])
+def proveedores_search():
+    b="%{}%".format(request.form["searchbox"])
+    h=request.form.get("opt_proveedores")
+
+    productos = Inventario.query.filter(getattr(Inventario, h).ilike(b))
+
+    for producto in productos:
+
+        if producto.imagen:
+            tipo =producto.mimetype
+            w=BytesIO()
+            x= Image.open(BytesIO(producto.imagen))
+            # x=x.resize((80,80))
+            x.save(w,tipo)
+            imgcod=base64.b64encode(w.getvalue())
+            producto.imagen=imgcod.decode('utf-8')
+            return render_template('proveedor.html',inventario=productos)
+        # return render_template("proveedor.html",proveedor=proveedor.query.filter_by(nombre=b))
+    
+    flash("usuario no encontrado")
+    return render_template('proveedor.html',inventario=Inventario.query.all())
 
 
 @views.route("/prueba")
