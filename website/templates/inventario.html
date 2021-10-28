@@ -5,20 +5,20 @@
 {% endblock %}
 
 {% block alertas %}
-  {% with messages = get_flashed_messages(with_categories = true) %}
-  {% if messages %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
 
-    {% for category, message in messages %}
-      <div class="alert alert-{{ category }} alter-dismissable fade show" role="alert">
-        {{ message }}
-        <button type="button" class="close" data-dismiss="alert">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    {% endfor %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+            <!-- <span aria-hidden="true">&times;</span> -->
+          </button>
+        </div>
+      {% endfor %}
 
-  {% endif %}
-  {% endwith %}
+    {% endif %}
+    {% endwith %}
 {% endblock %}
 <!-- TITULO EN LA INTERFAZ -->
 {% block tituloPagina %}
@@ -32,21 +32,25 @@ Inventario
 {% endblock %}
 <!-- CONTENIDO DE LA PAGINA -->
 {% block contenido %}
+<form class="col-auto" action="/inventario/search" method="post" id="form_busqueda_inv">
 <div class="input-group mb-3">
   <div class="input-group-text p-0">
       <select class="form-select form-select-lg shadow-none bg-light border-0" name="opt_inventario">
-        <option>Marca</option>  
-        <option>Modelo</option>
-        <option>Año</option>
+        <option value="marca">Marca</option>  
+        <option value="modelo">Modelo</option>
+        <option value="año">Año</option>
       </select>
   </div>
-  <input type="text" class="form-control" placeholder="Buscar...">
+  <input type="text" class="form-control" placeholder="Buscar..." id="searchbox1" name="searchbox1">
   <button class="input-group-text shadow-none px-4 btn-primary">
     <i class='bx bx-search-alt-2'></i>
+  <button type="submit" class="input-group-text shadow-none px-4 btn-dark" onclick="inventarios_search();">
+    <i class='bx bx-refresh'></i>
   </button>
 </div>
+</form>
     <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped table-responsive" id="inventariotable">
+        <table class="table table-bordered  table-striped table-responsive" id="inventariotable">
             <thead>
               <tr>
                 <th scope="col">Id</th>
@@ -55,7 +59,7 @@ Inventario
                 <th scope="col">Cantidad</th>
                 <th scope="col">Año</th>
                 <th scope="col">Cantidad mínima</th>
-                <th scope="col">Proveedor</th>
+                <th scope="col" hidden>imagen</th>
                 <th scope="col">Proveedor</th>
               </tr>
             </thead>
@@ -67,9 +71,9 @@ Inventario
                 <td>{{inventario.modelo}}</td>
                 <td>{{inventario.cantidad}}</td>
                 <td>{{inventario.fecha_salida}}</td>
-                <td>{{inventario.cantidadminima}}</td>
-                <td>{{inventario.proveedor_id}}</td>
+                <td>{{inventario.cantidad_minima}}</td>
                 <td hidden>data:image/{{inventario.mimetype}};base64,{{inventario.imagen}}</td>
+                <td>{{inventario.proveedor_id}}</td>
               </tr>
             {% endfor %}
             </tbody>
@@ -81,7 +85,7 @@ Inventario
   <div class="card mb-3">
   <div class="row g-0">
     <div class="col-md-4">
-      <img src="{{ url_for('static', filename='images/carro.jpg') }}" class="img-fluid rounded-start" alt="...">
+      <img src="data:image/{{tipo}};base64,{{img}}" class="img-fluid rounded-start" alt="usuario" id="inventario_imagen">
     </div>
     <div class="col-md-8">
       <div class="card-body">
@@ -125,15 +129,15 @@ Inventario
             </div>
           </div>
           <div class="row mb-3">
-            <label for="Proveedor" class="col-sm-2 col-form-label">Proveedor</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control" id="Proveedor" name="inventario_fecha_salida">
-            </div>
-          </div>
-          <div class="row mb-3">
             <label for="avatar" class="col-sm-2 custom-file-label">Imagen</label>
             <div class="col-sm-10 custom-file">
               <input type="file" id="avatar" class="form-control" name="inventario_imagen" accept="image/png, image/jpeg">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="Proveedor" class="col-sm-2 col-form-label">Proveedor</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="Proveedor" name="inventario_fecha_salida">
             </div>
           </div>
           <div class="row mb-3">

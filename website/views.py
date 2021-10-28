@@ -76,7 +76,7 @@ def usuarios():
     flash("Debes iniciar sesion","danger")
     return redirect("/")
 
-@views.route("/inventario")
+@views.route("/inventario",methods=["POST","GET"])
 def inventario():
     if "user" in session: #VERIFICAR SI SE INICIO SESION
         if session["rol"]=="superadministrador" or session["rol"]=="administrador": #VERIFICAR SI EL ROL TIENE ACCESO
@@ -96,7 +96,7 @@ def inventario():
     flash("Debes iniciar sesion","danger")
     return redirect("/")
 
-@views.route("/proveedores")
+@views.route("/proveedores",methods=["POST","GET"])
 def proveedor():
         if "user" in session: #VERIFICAR SI SE INICIO SESION no cambiar
             if session["rol"]=="superadministrador" or session["rol"]=="administrador": #VERIFICAR SI EL ROL TIENE ACCESO
@@ -122,34 +122,35 @@ def proveedor():
 @views.route("/usuarios/add", methods=['POST'])
 def usuarios_add():
     # if request.method=='POST':
-        nombre = escape(request.form["usuarios_nombre"]).lower()
-        apellido =escape(request.form["usuarios_apellido"]).lower()
-        usuario =escape(request.form["usuarios_usuario"])
-        clave =escape(request.form["usuarios_clave"]).lower()
-        confirmar =escape(request.form["usuarios_confirmar"]).lower()
-        rol =escape(request.form["usuarios_rol"]).lower()
-        cedula =escape(request.form["usuarios_cedula"]).lower()
-        correo =escape(request.form["usuarios_correo"]).lower()
-        cargo =escape(request.form["usuarios_cargo"]).lower()
-        # if 'file' not in request.files:
-            # flash("no se ha cargado archivo")
-        # else:
-        imagen =request.files["usuarios_imagen"]
-        filename=secure_filename(imagen.filename)
-        mimetype= imagen.mimetype
-        mimetype=mimetype.split("/")
-        mimetype=mimetype[1]
+    # if request.files["usuarios_imagen"] not in request.files:
+    #     flash('Por favor cargue una imagen',"danger")
+    #     return redirect("/usuarios")
+    # else:
+    nombre = escape(request.form["usuarios_nombre"]).lower()
+    apellido =escape(request.form["usuarios_apellido"]).lower()
+    usuario =escape(request.form["usuarios_usuario"])
+    clave =escape(request.form["usuarios_clave"]).lower()
+    confirmar =escape(request.form["usuarios_confirmar"]).lower()
+    rol =escape(request.form["usuarios_rol"]).lower()
+    cedula =escape(request.form["usuarios_cedula"]).lower()
+    correo =escape(request.form["usuarios_correo"]).lower()
+    cargo =escape(request.form["usuarios_cargo"]).lower()
+    imagen =request.files["usuarios_imagen"]
+    filename=secure_filename(imagen.filename)
+    mimetype= imagen.mimetype
+    mimetype=mimetype.split("/")
+    mimetype=mimetype[1]
         
-        if clave==confirmar:
-            user= Usuarios(nombre=nombre,apellido=apellido,usuario=usuario,rol=rol,cedula=cedula,correo=correo,cargo=cargo,imagen=imagen.read(),name=filename,mimetype=mimetype)
-            user.set_password(clave)
-            db.session.add(user)
-            db.session.commit()
-            flash("usuario agregado exitosamente","info")
-            return redirect("/usuarios")
-        else:
-            flash("Las contraseñas no coinciden", "warning")
-            return redirect("/usuarios")
+    if clave==confirmar:
+        user= Usuarios(nombre=nombre,apellido=apellido,usuario=usuario,rol=rol,cedula=cedula,correo=correo,cargo=cargo,imagen=imagen.read(),name=filename,mimetype=mimetype)
+        user.set_password(clave)
+        db.session.add(user)
+        db.session.commit()
+        flash("usuario agregado exitosamente","info")
+        return redirect("/usuarios")
+    else:
+        flash("Las contraseñas no coinciden", "warning")
+        return redirect("/usuarios")
 
 
 @views.route("/usuarios/search", methods=['POST'])
@@ -248,19 +249,26 @@ def inventario_add():
 
 @views.route("/inventario/update", methods=['POST'])
 def inventario_update():
-    id_producto=escape(request.form["inventarios_id"])
-    prod=Inventario.query.filter_by(usuario=id_producto).first()
+    id_producto=escape(request.form["inventario_id"])
+    prod=Inventario.query.filter_by(id=id_producto).first()
 
     prod.marca = escape(request.form["inventario_marca"]).lower()
     prod.modelo =escape(request.form["inventario_modelo"]).lower()
     prod.cantidad =escape(request.form["inventario_cantidad"])
     prod.fecha_salida =escape(request.form["inventario_fecha_salida"]).lower()
     prod.cantidad_minima =escape(request.form["inventario_cantidadminima"])
-    prod.imagen =request.files["inventario_imagen"].read()
-    prod.filename=secure_filename(prod.imagen.filename)
-    prod.mimetype=prod.imagen.mimetype
-    prod.db.session.commit()
-    return redirect("/inventarios")
+    imagenNew =request.files["inventario_imagen"]
+    prod.imagen = imagenNew.read()
+    prod.name =secure_filename(imagenNew.filename)
+    mimetype= imagenNew.mimetype
+    mimetype=mimetype.split("/")
+    mimetype=mimetype[1]
+    prod.mimetype= mimetype
+    db.session.commit()
+
+    
+
+    return redirect("/inventario")
 
 
 @views.route("/inventario/delete", methods=['POST'])
@@ -287,7 +295,7 @@ def inventario_delete():
 
 @views.route("inventario/search", methods=['POST'])
 def inventario_search():
-    b="%{}%".format(request.form["searchbox"])
+    b="%{}%".format(request.form["searchbox1"])
     h=request.form.get("opt_inventario")
 
     inventarios = Inventario.query.filter(getattr(Inventario, h).ilike(b))
@@ -351,30 +359,44 @@ def proveedores_update():
 
 @views.route("/proveedores/delete", methods=['POST'])
 def proveedores_delete():
-    return redirect("/proveedores")
+    proveedor_delete =escape(request.form["proveedores_id"])
+
+    if len(proveedor_delete) == 0:
+        flash("Para eliminar un proveedor, primero ingrese su <ID>", "danger")
+        return redirect("/proveedores")
+    else:
+        proveedor = Proveedores.query.filter_by(id=proveedor_delete).first()
+        if proveedor:
+            db.session.delete(proveedor)
+            db.session.commit()
+            flash("Proveedor eliminado", "success")
+            return redirect("/proveedores")
+        else:
+            flash("Proveedor no encontrado", "warning")
+            return redirect("/proveedores")
 
 @views.route("/proveedores/search", methods=['POST'])
 def proveedores_search():
-    b="%{}%".format(request.form["searchbox"])
+    b="%{}%".format(request.form["searchboxprov"])
     h=request.form.get("opt_proveedores")
 
-    productos = Inventario.query.filter(getattr(Inventario, h).ilike(b))
+    proveedores = Proveedores.query.filter(getattr(Proveedores, h).ilike(b))
 
-    for producto in productos:
+    for proveedor in proveedores:
 
-        if producto.imagen:
-            tipo =producto.mimetype
+        if proveedor.imagen:
+            tipo =proveedor.mimetype
             w=BytesIO()
-            x= Image.open(BytesIO(producto.imagen))
+            x= Image.open(BytesIO(proveedor.imagen))
             # x=x.resize((80,80))
             x.save(w,tipo)
             imgcod=base64.b64encode(w.getvalue())
-            producto.imagen=imgcod.decode('utf-8')
-            return render_template('proveedor.html',inventario=productos)
+            proveedor.imagen=imgcod.decode('utf-8')
+            return render_template('proveedores.html',proveedor=proveedores)
         # return render_template("proveedor.html",proveedor=proveedor.query.filter_by(nombre=b))
     
-    flash("usuario no encontrado")
-    return render_template('proveedor.html',inventario=Inventario.query.all())
+    flash("Proveedor no encontrado")
+    return render_template('proveedores.html',proveedores=Proveedores.query.all())
 
 
 @views.route("/prueba")
