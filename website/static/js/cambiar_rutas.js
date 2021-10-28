@@ -8,7 +8,7 @@ function usuarios_delete() {
 }
 
 function usuarios_search() {
-    document.getElementById("form_usuarios").action = "/usuarios";
+    document.getElementById("form_busqueda").action = "/usuarios";
 }
 // Cambiar rutas para el formulario de Inventario
 function inventario_update() {

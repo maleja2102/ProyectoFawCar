@@ -56,7 +56,7 @@ def inicio():
     flash("Debes iniciar sesion","danger")
     return redirect("/")
 
-@views.route("/usuarios")
+@views.route("/usuarios",methods=["POST","GET"])
 def usuarios():
     if "user" in session:
         if session["rol"]=="superadministrador" or session["rol"]=="administrador":
@@ -65,11 +65,10 @@ def usuarios():
                 if usuario.imagen:
                     w=BytesIO()
                     x= Image.open(BytesIO(usuario.imagen))
-                    # x=x.resize((80,80))
+                    #x.thumbnail([80,80])
                     x.save(w, usuario.mimetype)
                     imgcod=base64.b64encode(w.getvalue())
                     usuario.imagen=imgcod.decode('utf-8')
-                    # usuario.clave = check_password_hash(usuario.clave)
             return render_template('usuarios.html',usuarios=usuarios)
         else:
             flash("no tienes permiso para acceder a esta pagina","danger")
@@ -171,7 +170,7 @@ def usuarios_search():
         # return render_template("usuarios.html",usuarios=Usuarios.query.filter_by(nombre=b))
     
     flash("usuario no encontrado")
-    return render_template('usuarios.html',usuarios=Usuarios.query.all())
+    return redirect("/usuarios")
 
 
 @views.route("/usuarios/update", methods=['POST'])

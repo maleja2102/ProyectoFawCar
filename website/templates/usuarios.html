@@ -5,20 +5,20 @@
 {% endblock %}
 
 {% block alertas %}
-  {% with messages = get_flashed_messages(with_categories = true) %}
-  {% if messages %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
 
-    {% for category, message in messages %}
-      <div class="alert alert-{{ category }} alter-dismissable fade show" role="alert">
-        {{ message }}
-        <button type="button" class="close" data-dismiss="alert">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    {% endfor %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+            <!-- <span aria-hidden="true">&times;</span> -->
+          </button>
+        </div>
+      {% endfor %}
 
-  {% endif %}
-  {% endwith %}
+    {% endif %}
+    {% endwith %}
 {% endblock %}
 <!-- TITULO EN LA INTERFAZ -->
 {% block tituloPagina %}
@@ -33,7 +33,7 @@ Usuarios
 
 <!-- CONTENIDO DE LA PAGINA -->
 {% block contenido %}
-<form class="col-auto" action="/usuarios/search" method="post">
+<form class="col-auto" action="/usuarios/search" method="post" id="form_busqueda">
 <div class="input-group mb-3">
   <div class="input-group-text p-0">
       <select class="form-select form-select-lg shadow-none bg-light border-0" name="opt">
