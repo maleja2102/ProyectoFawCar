@@ -131,6 +131,9 @@ def usuarios_add():
         cedula =escape(request.form["usuarios_cedula"]).lower()
         correo =escape(request.form["usuarios_correo"]).lower()
         cargo =escape(request.form["usuarios_cargo"]).lower()
+        # if 'file' not in request.files:
+            # flash("no se ha cargado archivo")
+        # else:
         imagen =request.files["usuarios_imagen"]
         filename=secure_filename(imagen.filename)
         mimetype= imagen.mimetype
@@ -181,15 +184,25 @@ def usuarios_update():
     user.nombre = escape(request.form["usuarios_nombre"])
     user.apellido =escape(request.form["usuarios_apellido"])
     # user.usuario =escape(request.form["usuarios_usuario"])
-    user.clave =escape(request.form["usuarios_clave"])
+    # user.clave =escape(request.form["usuarios_clave"])
     # user.confirmar =escape(request.form["usuarios_confirmar"]).lower()
     user.rol =escape(request.form["usuarios_rol"])
     user.cedula =escape(request.form["usuarios_cedula"])
-    user.correo =escape(request.form["usuarios_correo"]).lower()
+    user.correo =escape(request.form["usuarios_correo"])
     user.cargo =escape(request.form["usuarios_cargo"])
-    user.imagen =request.files["usuarios_imagen"].read()
-    user.name=secure_filename(user.imagen.filename)
-    user.mimetype=user.imagen.mimetype
+    # if "usuarios_imagen" not in request.files:
+        # flash("no cargaste imagen","danger")
+        # return redirect(request.url)
+    nuevaimagen=request.files["usuarios_imagen"]
+    user.imagen =nuevaimagen.read()
+    # if user.imagen.filename=="":
+        # flash("No filename","danger")
+        # return redirect(request.url)
+    user.name=secure_filename(nuevaimagen.filename)
+    mimetype= nuevaimagen.mimetype
+    mimetype=mimetype.split("/")
+    mimetype=mimetype[1]
+    user.mimetype= mimetype
     db.session.commit()
     return redirect("/usuarios")
 
