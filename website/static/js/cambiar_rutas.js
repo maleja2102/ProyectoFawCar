@@ -112,8 +112,8 @@ $(document).ready( function () {
             document.getElementById("inputRol").value= fila[4]
             document.getElementById("inputCedula").value= fila[5]
             document.getElementById("inputEmail").value= fila[6]
-            document.getElementById("inputCargo").value= fila[8]
-            document.getElementById("userImage").src=fila[7]
+            document.getElementById("inputCargo").value= fila[7]
+            document.getElementById("userImage").src=fila[8]
         } );
         
     });
