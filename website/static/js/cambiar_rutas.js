@@ -64,7 +64,7 @@ $(document).ready( function () {
     });
 
     var inventariotable = $('#inventariotable').DataTable({
-        paging: false,
+        // paging: false,
         searching: false,
         info:false,
         // "columnDefs": [
