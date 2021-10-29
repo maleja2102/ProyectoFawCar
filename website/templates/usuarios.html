@@ -72,12 +72,12 @@ Usuarios
               <tr>
                 <td>{{Usuarios.nombre}}</td>
                 <td>{{Usuarios.apellido}}</td>
-                <td hidden>{{Usuarios.correo}}</td>
                 <td>{{Usuarios.usuario}}</td>
                 <td hidden>{{Usuarios.clave}}</td>
-                <td>{{Usuarios.cedula}}</td>
-                <td>{{Usuarios.cargo}}</td>
                 <td hidden>{{Usuarios.rol}}</td>
+                <td>{{Usuarios.cedula}}</td>
+                <td hidden>{{Usuarios.correo}}</td>
+                <td>{{Usuarios.cargo}}</td>
                 <td hidden>data:image/{{Usuarios.mimetype}};base64,{{Usuarios.imagen}}</td>
               </tr>
             {% endfor %}
@@ -169,6 +169,7 @@ Usuarios
                 <button type="submit" class="btn btn-success btn-lg">Agregar</button>
                 <button type="submit" class="btn btn-warning btn-lg" onclick="usuarios_update();">Editar</button>
                 <button type="submit" class="btn btn-danger btn-lg" onclick="usuarios_delete();">Eliminar</button>
+                <input type="reset" value="Limpiar formulario">
                 </div>
                 <br>
               <!-- <button class="btn btn-primary btn-lg btn-block" type="submit">Guardar</button> -->
