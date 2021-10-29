@@ -72,12 +72,12 @@ Usuarios
               <tr>
                 <td>{{Usuarios.nombre}}</td>
                 <td>{{Usuarios.apellido}}</td>
+                <td hidden>{{Usuarios.correo}}</td>
                 <td>{{Usuarios.usuario}}</td>
                 <td hidden>{{Usuarios.clave}}</td>
-                <td hidden>{{Usuarios.rol}}</td>
                 <td>{{Usuarios.cedula}}</td>
-                <td hidden>{{Usuarios.correo}}</td>
                 <td>{{Usuarios.cargo}}</td>
+                <td hidden>{{Usuarios.rol}}</td>
                 <td hidden>data:image/{{Usuarios.mimetype}};base64,{{Usuarios.imagen}}</td>
               </tr>
             {% endfor %}
