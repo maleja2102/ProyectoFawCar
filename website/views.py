@@ -79,7 +79,7 @@ def usuarios():
 @views.route("/inventario",methods=["POST","GET"])
 def inventario():
     if "user" in session: #VERIFICAR SI SE INICIO SESION
-        if session["rol"]=="superadministrador" or session["rol"]=="administrador": #VERIFICAR SI EL ROL TIENE ACCESO
+        if session["rol"]=="superadministrador" or session["rol"]=="administrador" or session["rol"]=="usuario": #VERIFICAR SI EL ROL TIENE ACCESO
             inventarios = Inventario.query.all()
             for inventario in inventarios:
                 if inventario.imagen:
@@ -99,7 +99,7 @@ def inventario():
 @views.route("/proveedores",methods=["POST","GET"])
 def proveedor():
         if "user" in session: #VERIFICAR SI SE INICIO SESION no cambiar
-            if session["rol"]=="superadministrador" or session["rol"]=="administrador": #VERIFICAR SI EL ROL TIENE ACCESO
+            if session["rol"]=="superadministrador" or session["rol"]=="administrador"or session["rol"]=="usuario": #VERIFICAR SI EL ROL TIENE ACCESO
                 proveedores = Proveedores.query.all()
                 for proveedor in proveedores:
                     if proveedor.imagen:
@@ -340,22 +340,27 @@ def proveedores_add():
 @views.route("/proveedores/update", methods=['POST'])
 def proveedores_update():
 
-    nombre_usuario=escape(request.form["proveedor_usuario"])
-    provee=Proveedores.query.filter_by(usuario=nombre_usuario).first()
+    id_proveedor=escape(request.form["proveedores_id"])
+    provee=Proveedores.query.filter_by(id=id_proveedor).first()
 
-    provee.apellido =escape(request.form["proveedor_apellido"])
-    # provee.usuario =escape(request.form["proveedor_usuario"])
-    provee.clave =escape(request.form["proveedor_clave"])
-    # provee.confirmar =escape(request.form["proveedor_confirmar"]).lower()
-    provee.rol =escape(request.form["proveedor_rol"])
-    provee.cedula =escape(request.form["proveedor_cedula"])
-    provee.correo =escape(request.form["proveedor_correo"]).lower()
-    provee.cargo =escape(request.form["proveedor_cargo"])
-    provee.imagen =request.files["proveedor_imagen"].read()
-    provee.name=secure_filename(provee.imagen.filename)
-    provee.mimetype=provee.imagen.mimetype
+    provee.empresa =escape(request.form["proveedores_empresa"])
+    provee.contacto =escape(request.form["proveedores_contacto"])
+    provee.telefono =escape(request.form["proveedores_telefono"])
+    provee.direccion =escape(request.form["proveedores_direccion"]).lower()
+    provee.correo =escape(request.form["proveedores_correo"])
+    # provee.cedula =escape(request.form["proveedor_cedula"])
+    # provee.correo =escape(request.form["proveedor_correo"]).lower()
+    # provee.cargo =escape(request.form["proveedor_cargo"])
+    nuevimgprov =request.files["imgproveedor"]
+    provee.name=secure_filename(nuevimgprov.filename)
+    mimetype= nuevimgprov.mimetype
+    mimetype=mimetype.split("/")
+    mimetype=mimetype[1]
+    provee.mimetype=mimetype
     db.session.commit()
     return redirect("/proveedores")
+
+
 
 @views.route("/proveedores/delete", methods=['POST'])
 def proveedores_delete():

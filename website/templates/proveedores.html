@@ -5,20 +5,20 @@
 {% endblock %}
 
 {% block alertas %}
-  {% with messages = get_flashed_messages(with_categories = true) %}
-  {% if messages %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
 
-    {% for category, message in messages %}
-      <div class="alert alert-{{ category }} alter-dismissable fade show" role="alert">
-        {{ message }}
-        <button type="button" class="close" data-dismiss="alert">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    {% endfor %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+            <!-- <span aria-hidden="true">&times;</span> -->
+          </button>
+        </div>
+      {% endfor %}
 
-  {% endif %}
-  {% endwith %}
+    {% endif %}
+    {% endwith %}
 {% endblock %}
 <!-- TITULO EN LA INTERFAZ -->
 {% block tituloPagina %}
@@ -139,7 +139,7 @@ Proveedores
                 <button type="submit" class="btn btn-success btn-lg">Agregar</button>
                 <button type="submit" class="btn btn-warning btn-lg" onclick="proveedores_update();">Editar</button>
                 <button type="submit" class="btn btn-danger btn-lg" onclick="proveedores_delete();">Eliminar</button>
-                <input type="reset" value="Limpiar formulario">
+                <input type="reset" value="Limpiar formulario" class="btn btn-dark">
                 </div>
                 <br>
               <!-- <button class="btn btn-primary btn-lg btn-block" type="submit">Guardar</button> -->
