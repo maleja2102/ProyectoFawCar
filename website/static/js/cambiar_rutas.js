@@ -78,15 +78,15 @@ $(document).ready( function () {
         //     }
         // ]
         'rowCallback': function(row, data, index){
-            if(data[3] < data[5]){
+            if(parseInt(data[3]) < parseInt(data[5])){
                 $(row).find('td:eq(3)').css('color', 'white');
                 $(row).find('td:eq(3)').addClass('bg-danger')
             }
-            if(data[3] == data[5]){
+            if(parseInt(data[3]) == parseInt(data[5])){
                 $(row).find('td:eq(3)').css('color', 'white');
                 $(row).find('td:eq(3)').addClass('bg-warning')
             }
-            if(data[3] > data[5]){
+            if(parseInt(data[3]) > parseInt(data[5])){
                 $(row).find('td:eq(3)').css('color', 'white');
                 $(row).find('td:eq(3)').addClass('bg-success')
             }
